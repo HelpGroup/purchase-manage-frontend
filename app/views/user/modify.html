@@ -1,0 +1,13 @@
+<div class="container">
+  <form class="form-signin">
+    <h2 class="form-signin-heading">修改密码</h2>
+    <label for="inputEmail" class="sr-only">用户名</label>
+    <h3>{{userModify.user.username}}</h3>
+    <label for="inputPassword" class="sr-only">密码</label>
+    <input type="password" id="inputPassword" class="form-control" placeholder="请输入密码" required="" ng-model="userModify.user.password">
+    <label for="inputPassword" class="sr-only">重复密码</label>
+    <input type="password" id="inputPassword" class="form-control" placeholder="请输入密码" required="" ng-model="userModify.repeatPassword">
+    <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="userModify.modify()">修改</button>
+    <button class="btn btn-lg btn-primary btn-block" ng-click="userModify.cancel()">放弃</button>
+  </form>
+</div>

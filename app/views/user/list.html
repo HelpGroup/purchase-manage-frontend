@@ -1,0 +1,20 @@
+<table class="table">
+  <thead>
+    <th>用户名</th>
+    <th>操作</th>
+  </thead>
+  <tbody>
+    <tr ng-repeat="user in userList.userList">
+      <td>{{user.username}}</td>
+      <td>
+        <a href="javascript:void(0);" ng-click="userList.modifyPassword(user)">修改密码</a>
+        <a href="javascript:void(0);" ng-click="userList.delete(user)">删除</a>
+      </td>
+    </tr> 
+    <tr>
+      <td colspan="2">
+        <a href="javascript:void(0);" ng-click="userList.create()">新建用户</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
