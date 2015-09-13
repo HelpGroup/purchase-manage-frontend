@@ -1,4 +1,4 @@
-# purchase-manage-frontend
+# purchase-manage-frontend(采购平台前端)
 
 This project is generated with [yo angular generator](https://github.com/yeoman/generator-angular)
 version 0.12.1.
