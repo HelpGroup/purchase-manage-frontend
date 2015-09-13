@@ -45,6 +45,7 @@
               <li><a ng-href="#/user/create">创建用户</a></li>
               <li><a ng-href="#/user/list">获取用户</a></li>
               <li><a ng-href="#/user/modify?username=12&userId=1&successPath=/user/list">修改用户</a></li>
+              <li><a ng-href="#/product-classify">修改大类</a></li>
             </ul>
           </div>
         </div>
@@ -73,6 +74,8 @@
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="bower_components/angular-cookies/angular-cookies.js"></script>
     <script src="bower_components/angular-messages/angular-messages.js"></script>
+    <script src="bower_components/moment/moment.js"></script>
+    <script src="bower_components/angular-moment/angular-moment.js"></script>
     <script src="bower_components/angular-resource/angular-resource.js"></script>
     <script src="bower_components/angular-inflector/dist/angular-inflector.min.js"></script>
     <script src="bower_components/angular-restmod/dist/angular-restmod-bundle.min.js"></script>
@@ -98,6 +101,10 @@
     <script src="scripts/controllers/user/list.js"></script>
     <script src="scripts/controllers/user/modify.js"></script>
     <script src="scripts/services/handlecommonresponsestatus.js"></script>
+    <script src="scripts/controllers/product-classify.js"></script>
+    <script src="scripts/services/authorization.js"></script>
+    <script src="scripts/services/route.js"></script>
+    <script src="scripts/services/classify.js"></script>
     <!-- endbuild -->
 </body>
 </html>

@@ -19,11 +19,13 @@ angular
     'ngTouch',
     'restmod',
     'ui.bootstrap',
-    'ngLodash'
+    'ngLodash',
+    'angularMoment'
   ])
-  .run(function ($rootScope, alertService) {
+  .run(function ($rootScope, alertService, routeService) {
     // 顶部所有的弹框
     $rootScope.alertService = alertService;
+    routeService.init();
   })
   .config(function ($routeProvider, restmodProvider, config) {
     $routeProvider
@@ -56,6 +58,11 @@ angular
         templateUrl: 'views/user/modify.html',
         controller: 'UserModifyCtrl',
         controllerAs: 'userModify'
+      })
+      .when('/product-classify', {
+        templateUrl: 'views/product-classify.html',
+        controller: 'ProductClassifyCtrl',
+        controllerAs: 'productClassify'
       })
       .otherwise({
         redirectTo: '/'

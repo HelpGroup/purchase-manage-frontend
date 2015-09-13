@@ -8,14 +8,15 @@
  * Controller of the purchaseManageFrontendApp
  */
 angular.module('purchaseManageFrontendApp')
-  .controller('LoginCtrl', function (Login, alertService, $log) {
+  .controller('LoginCtrl', function ($http, authorization, Login, alertService, $log) {
+    var login = this;
     this.username = '';
     this.password = '';
     this.login = function () {
       Login.$create({
         username: this.username,
         password: this.password
-      }).$then(function () {
+      }).$then(function (data) {
         // TODO 放到alert服务里面作为alert的例子, 然后删除这段代码改为页面跳转
         var alert = {
           type: 'success',
@@ -27,6 +28,9 @@ angular.module('purchaseManageFrontendApp')
           }
         };
         alertService.alert(alert);
+        
+        authorization.setAuthorization(data.token, login.username);
+        authorization.setHttpAuthorizationHeader(data.token);
       }, function($response) {
         // TODO common handle response
         var alert = {

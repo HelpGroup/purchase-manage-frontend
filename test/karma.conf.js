@@ -28,6 +28,8 @@ module.exports = function(config) {
       'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
       'bower_components/angular-cookies/angular-cookies.js',
       'bower_components/angular-messages/angular-messages.js',
+      'bower_components/moment/moment.js',
+      'bower_components/angular-moment/angular-moment.js',
       'bower_components/angular-resource/angular-resource.js',
       'bower_components/angular-inflector/dist/angular-inflector.min.js',
       'bower_components/angular-restmod/dist/angular-restmod-bundle.min.js',
