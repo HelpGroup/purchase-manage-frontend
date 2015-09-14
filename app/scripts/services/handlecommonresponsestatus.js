@@ -14,9 +14,9 @@ angular.module('purchaseManageFrontendApp')
     return restmod.mixin({
       $hooks: {
         'after-request-error': function () {
-          // 假如是403, 那么就跳转到登录页面
+          // 假如是401, 那么就跳转到登录页面
           // TODO 由于这个事件周期不能退出, 导致也会进入到每一个实例的错误里面, 还要想办法才行
-          if (403 === this.$response.status) {
+          if (401 === this.$response.status) {
             var alert = {
               type: 'warning',
               msg: '会话过期, 请重新登录',

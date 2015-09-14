@@ -1,0 +1,34 @@
+<h3>大类: {{product.classifyName}}</h3>
+<table class="table">
+  <thead>
+    <th>菜品及规格</th>
+    <th>单位</th>
+    <th>操作</th>
+  </thead>
+  <tbody>
+    <tr ng-repeat="item in product.list">
+      <td>
+        <input type="text" class="" maxlength="40" focus-me="{{product.showRenameInput($index, 'name')}}" ng-show="product.showRenameInput($index, 'name')" ng-model="item.name" ng-keypress="product.confirmRename($event)" />
+        <span ng-show="!product.showRenameInput($index, 'name')">{{item.name}}</span>
+      </td>
+      <td>
+        <input type="text" class="" maxlength="40" focus-me="{{product.showRenameInput($index, 'unit')}}" ng-show="product.showRenameInput($index, 'unit')" ng-model="item.unit" ng-keypress="product.confirmRename($event)" />
+        <span ng-show="!product.showRenameInput($index, 'unit')">{{item.unit}}</span>
+      </td>
+      <td>
+        <a href="javascript:void(0);" ng-click="product.rename($index, 'name')" ng-show="!product.showRenameInput($index, 'name')">改名</a>
+        <a href="javascript:void(0);" ng-show="product.showRenameInput($index, 'name')" ng-click="product.cancelRename($index, 'name')">取消改名</a>
+        <a href="javascript:void(0);" ng-click="product.rename($index, 'unit')" ng-show="!product.showRenameInput($index, 'unit')">更改单位</a>
+        <a href="javascript:void(0);" ng-show="product.showRenameInput($index, 'unit')" ng-click="product.cancelRename($index, 'unit')">取消更改单位</a>
+        <a href="javascript:void(0);" ng-click="product.delete(item)">删除</a>
+      </td>
+    </tr> 
+    <tr>
+      <td colspan="3">
+        <a href="javascript:void(0);" ng-click="product.create()">新建新品种</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<button type="button" class="btn btn-primary" ng-click="product.commitEdit(item)" ng-class="{disabled: !product.modified}">提交修改</button>
+<button type="button" class="btn btn-default", ng-click="product.reset()">复原</button>

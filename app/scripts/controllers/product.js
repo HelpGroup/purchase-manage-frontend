@@ -2,22 +2,39 @@
 
 /**
  * @ngdoc function
- * @name purchaseManageFrontendApp.controller:ProductClassifyCtrl
+ * @name purchaseManageFrontendApp.controller:ProductCtrl
  * @description
- * # ProductClassifyCtrl
+ * # ProductCtrl
  * Controller of the purchaseManageFrontendApp
  */
 angular.module('purchaseManageFrontendApp')
-  .controller('ProductClassifyCtrl', function ($scope, Classify, lodash) {
-    var productClassify = this;
+  .directive('focusMe', function($timeout) {
+    return {
+      scope: { trigger: '@focusMe' },
+      link: function(scope, element) {
+        scope.$watch('trigger', function(value) {
+          if(value === "true") { 
+            $timeout(function() {
+              element[0].focus(); 
+            });
+          }
+        });
+      }
+    };
+  })
+  .controller('ProductCtrl', function ($scope, $location, Classify, lodash) {
+    var product = this;
     this.readyDeleteIds = [];
     this.list = [{
       id: 1,
-      name: '蔬菜'
+      name: '海带',
+      unit: 'g'
     }, {
       id: 2,
-      name: '菠菜'
+      name: '鲫鱼',
+      unit: '条'
     }];
+    product.classifyName = $location.search().classifyName;
 
     this.initWaitModifyList = function (back) {
       if (back) {
@@ -28,16 +45,21 @@ angular.module('purchaseManageFrontendApp')
       this.modified = true;
     };
     this.initRenameIndex = function () {
-      this.renameIndex = -1;
+      this.renameIndex = null;
     };
-    this.rename = function (index) {
-      this.renameIndex = index;
+    this.rename = function (index, type) {
+      this.renameIndex = this.renameIndex || {};
+      this.renameIndex.index = index;
+      this.renameIndex.type = type;
     };
-    this.showRenameInput = function (index) {
-      return index === this.renameIndex;
+    this.showRenameInput = function (index, type) {
+      if (this.renameIndex === null) {
+        return false;
+      }
+      return index === this.renameIndex.index && type === this.renameIndex.type;
     };
-    this.cancelRename = function ($index) {
-      this.list[$index] = this.originalList[$index];
+    this.cancelRename = function ($index, type) {
+      this.list[$index][type] = this.originalList[$index][type];
       this.initRenameIndex();
     };
     this.delete = function (index) {
@@ -69,9 +91,9 @@ angular.module('purchaseManageFrontendApp')
     }
 
     $scope.$watch(function () {
-      return productClassify.list;
+      return product.list;
     }, function (value) {
-      productClassify.modified = productClassify.whetheModified(); 
+      product.modified = product.whetheModified(); 
     }, true);
 
     this.initRenameIndex();

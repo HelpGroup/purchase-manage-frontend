@@ -5,15 +5,15 @@
   </thead>
   <tbody>
     <tr ng-repeat="classify in productClassify.list">
-      <td>
-        <input type="text" class="" ng-show="productClassify.showRenameInput($index)" ng-model="classify.name" ng-keypress="productClassify.confirmRename($index, $event)" ng-blur="productClassify.confirmRename($index)"/>
+      <td width="30%">
+        <input type="text" class="" focus-me="{{productClassify.showRenameInput($index)}}" ng-show="productClassify.showRenameInput($index)" ng-model="classify.name" ng-keypress="productClassify.confirmRename($event)" />
         <span ng-show="!productClassify.showRenameInput($index)">{{classify.name}}</span>
       </td>
       <td>
         <a href="javascript:void(0);" ng-click="productClassify.rename($index)" ng-show="!productClassify.showRenameInput($index)">改名</a>
         <a href="javascript:void(0);" ng-show="productClassify.showRenameInput($index)" ng-click="productClassify.cancelRename($index)">取消改名</a>
         <a href="javascript:void(0);" ng-click="productClassify.delete(classify)">删除</a>
-        <a href="javascript:void(0);" ng-click="productClassify.editClassify(classify)">下属菜品维护</a>
+        <a ng-href="#/product-classify/1/product?classifyName={{classify.name}}">下属菜品维护</a>
       </td>
     </tr> 
     <tr>

@@ -64,6 +64,11 @@ angular
         controller: 'ProductClassifyCtrl',
         controllerAs: 'productClassify'
       })
+      .when('/product-classify/:id/product', {
+        templateUrl: 'views/product.html',
+        controller: 'ProductCtrl',
+        controllerAs: 'product'
+      })
       .otherwise({
         redirectTo: '/'
       });
