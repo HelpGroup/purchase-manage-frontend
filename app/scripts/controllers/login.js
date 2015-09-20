@@ -17,8 +17,7 @@ angular.module('purchaseManageFrontendApp')
         username: this.username,
         password: this.password
       }).$then(function (data) {
-        $location.path(config.path.AFTER_LOGIN); 
-        
+        $state.go(config.path.AFTER_LOGIN);
         authorization.setAuthorization(data.token, data.username, data.roleId);
         authorization.setHttpAuthorizationHeader(data.token);
       }, function($response) {
@@ -28,6 +27,6 @@ angular.module('purchaseManageFrontendApp')
           code: alertService.codes.USERNAME_OR_PASSWORD_ERR,
         };
         alertService.alert(alert);
-      }); 
+      });
     };
   });

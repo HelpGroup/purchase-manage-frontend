@@ -8,18 +8,18 @@
  * Service in the purchaseManageFrontendApp.
  */
 angular.module('purchaseManageFrontendApp')
-  .service('routeService', function ($location, $rootScope, alertService, config, authorization) {
+  .service('routeService', function ($location, $rootScope, $state, alertService, config, authorization) {
     this.init = function () {
-      $rootScope.$on('$routeChangeStart', function () {
+      $rootScope.$on('$stateChangeStart', function () {
         var authorizationValue = authorization.getAuthorization();
         if (authorizationValue) {
           var token = authorizationValue.token; 
           authorization.setHttpAuthorizationHeader(token);
-          if ($location.path() === config.path.LOGIN) {
-            $location.path(config.path.AFTER_LOGIN);
+          if ($state.is(config.path.LOGIN)) {
+            $state.go(config.path.AFTER_LOGIN);
           }
         } else {
-          // $location.path(config.path.LOGIN);
+          $state.go(config.path.LOGIN);
         }
         alertService.init('PATH_CHANGE');
       });

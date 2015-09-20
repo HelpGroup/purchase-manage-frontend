@@ -8,7 +8,7 @@
  * Factory in the purchaseManageFrontendApp.
  */
 angular.module('purchaseManageFrontendApp')
-  .factory('handleCommonResponseStatus', function (restmod, $location, config, alertService) {
+  .factory('handleCommonResponseStatus', function (restmod, $location, $state, config, alertService) {
     // Service logic
     // Public API here
     return restmod.mixin({
@@ -23,7 +23,7 @@ angular.module('purchaseManageFrontendApp')
               code: alertService.codes.NOT_LOGIN
             };
             alertService.alert(alert);
-            $location.path(config.path.LOGIN);
+            $state.go(config.path.LOGIN);
           }
         },
         'after-request': function () {
