@@ -1,0 +1,22 @@
+<table class="table table-bordered">
+  <thead>
+    <th>分类</th>
+    <th>菜品</th>
+    <th>单位</th>
+    <th>需求数量</th>
+    <th>实际采购量</th>
+    <th>采购总价</th>
+  </thead>
+  <tbody ng-repeat="classify in productActuallyBuy.list">
+    <tr ng-repeat="item in classify.items">
+      <td rowspan="{{classify.items.length}}" ng-if="$index === 0">{{classify.name}}</td>
+      <td>{{item.name}}</td>
+      <td>{{item.unit}}</td>
+      <td>{{item.quantity}}</td>
+      <td><input type="text" ng-model="item.actuallyAmount"/></td>
+      <td><input type="text" ng-model="item.actuallyExpense"/></td>
+    </tr> 
+  </tbody>
+</table>
+<button type="button" class="btn btn-primary" ng-click="productActuallyBuy.commitEdit()" ng-class="{disabled: !productActuallyBuy.readyForCommit}">提交</button>
+<button type="button" class="btn btn-default" ng-click="productActuallyBuy.export()">导出CSV</button>

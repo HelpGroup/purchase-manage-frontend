@@ -20,7 +20,7 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div class="header">
+    <div class="header" ng-show="authorization.isLogined()">
       <div class="navbar navbar-default" role="navigation">
         <div class="container">
           <div class="navbar-header">
@@ -32,21 +32,37 @@
               <span class="icon-bar"></span>
             </button>
 
-            <a class="navbar-brand" href="#/">purchaseManageFrontend</a>
+            <a class="navbar-brand" href="#/"></a>
           </div>
 
           <div class="collapse navbar-collapse" id="js-navbar-collapse">
 
             <ul class="nav navbar-nav">
-              <li class="active"><a href="#/">Home</a></li>
-              <li><a ng-href="#/about">About</a></li>
-              <li><a ng-href="#/">Contact</a></li>
-              <li><a ng-href="#/login">登录</a></li>
-              <li><a ng-href="#/user/create">创建用户</a></li>
-              <li><a ng-href="#/user/list">获取用户</a></li>
-              <li><a ng-href="#/user/modify?username=12&userId=1&successPath=/user/list">修改用户</a></li>
-              <li><a ng-href="#/product-classify">修改大类</a></li>
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">分店录入<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#/product-quantity">采购需求录入</a></li>
+                </ul>
+              </li>
+
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">集中采购<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#/product-stat">采购需求汇总</a></li>
+                </ul>
+              </li>
+
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">系统管理<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#/product-classify">菜品维护</a></li>
+                  <li><a href="#/user/list">用户管理</a></li>
+                </ul>
+              </li>
             </ul>
+            <p class="navbar-text navbar-right">
+              <a href="">{{authorization.getAuthorization().username}}</a>, 欢迎您, <a href="javascript:void(0);" ng-click="authorization.logout()">退出</a>
+            </p>
           </div>
         </div>
       </div>
@@ -62,7 +78,8 @@
 
     <div class="footer">
       <div class="container">
-        <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
+        <h5>© 2015 杭州久瑞餐饮有限公司</h5>
+        <p>Authored by @JulienBrks @Mark Lee</p>
       </div>
     </div>
 
@@ -82,6 +99,7 @@
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js"></script>
     <script src="bower_components/lodash/lodash.js"></script>
     <script src="bower_components/ng-lodash/build/ng-lodash.js"></script>
@@ -106,6 +124,11 @@
     <script src="scripts/services/route.js"></script>
     <script src="scripts/services/classify.js"></script>
     <script src="scripts/controllers/product.js"></script>
+    <script src="scripts/controllers/product-quantity.js"></script>
+    <script src="scripts/controllers/product-stat.js"></script>
+    <script src="scripts/controllers/product-actually-buy.js"></script>
+    <script src="scripts/controllers/confirm-quit.js"></script>
+    <script src="scripts/controllers/confirm-quit-modal.js"></script>
     <!-- endbuild -->
 </body>
 </html>

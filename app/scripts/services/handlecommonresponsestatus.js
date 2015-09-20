@@ -27,9 +27,7 @@ angular.module('purchaseManageFrontendApp')
           }
         },
         'after-request': function () {
-          if (this.$response.data.item) {
-            this.$response.data = this.$response.data.item;
-          }
+          this.$response.data = this.$response.data.item;
         }
       }
     });

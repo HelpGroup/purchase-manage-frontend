@@ -1,0 +1,5 @@
+@import 'mixin';
+.alert {
+  @include common-width-layout;
+  margin-bottom: 20px;
+}

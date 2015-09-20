@@ -8,18 +8,38 @@
  * Service in the purchaseManageFrontendApp.
  */
 angular.module('purchaseManageFrontendApp')
-  .service('authorization', function ($cookies, $http, moment) {
-    this.setAuthorization = function (token, name) {
-      $cookies.put('authorization', JSON.stringify({
+  .service('authorization', function ($cookies, $http, $location, $modal, config, moment) {
+    var COOKIE_NAME = 'authorization';
+    this.setAuthorization = function (token, username, roleId) {
+      $cookies.put(COOKIE_NAME, JSON.stringify({
         token: token,
-        name: name
+        username: username,
+        roleId: roleId
       }));
     };
     this.getAuthorization = function () {
-      return $cookies.getObject('authorization');
+      return $cookies.getObject(COOKIE_NAME);
     };
     this.setHttpAuthorizationHeader = function (token) {
       $http.defaults.headers.common.token = token;
+    };
+    this.isLogined = function () {
+      return this.getAuthorization() !== undefined; 
+    };
+    this.logout = function () {
+      var modalInstance = $modal.open({
+        templateUrl: '/views/confirm-quit-modal.html',
+        controller: 'ConfirmQuitModalCtrl'
+      });
+      modalInstance.result.then(function () {
+        $cookies.remove(COOKIE_NAME);
+        $location.path(config.path.LOGIN);
+      });
+    };
+    this.init = function (type) {
+      if ('development' === type) {
+        this.setAuthorization('', 'lxc', 1);
+      };
     };
     return this;
   });

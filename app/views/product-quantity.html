@@ -1,0 +1,18 @@
+<table class="table table-bordered">
+  <thead>
+    <th>分类</th>
+    <th>菜品</th>
+    <th>单位</th>
+    <th>数量</th>
+  </thead>
+  <tbody ng-repeat="classify in productQuantity.list">
+    <tr ng-repeat="item in classify.items">
+      <td rowspan="{{classify.items.length}}" ng-if="$index === 0">{{classify.name}}</td>
+      <td>{{item.name}}</td>
+      <td>{{item.unit}}</td>
+      <td><input type="text" ng-model="item.quantity"/></td>
+    </tr> 
+  </tbody>
+</table>
+<button type="button" class="btn btn-primary" ng-click="productQuantity.commitEdit()" ng-class="{disabled: !productQuantity.readyForCommit}">提交修改</button>
+<button type="button" class="btn btn-default" ng-click="productQuantity.clear()">清空</button>

@@ -10,7 +10,5 @@
 angular.module('purchaseManageFrontendApp')
   .factory('User', function (restmod, config) {
     var host = config.host;
-    // Service logic
-    // Public API here
     return restmod.model(host + '/user');
   });

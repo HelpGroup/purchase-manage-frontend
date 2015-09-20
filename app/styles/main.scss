@@ -1,3 +1,5 @@
+@import 'mixin';
+
 $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
 // bower:scss
 @import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
@@ -15,7 +17,6 @@ body {
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
-.header,
 .marketing,
 .footer {
   padding-left: 15px;
@@ -24,8 +25,6 @@ body {
 
 /* Custom page header */
 .header {
-  margin-bottom: 10px;
-
   /* Make the masthead heading the same height as the navigation */
   h3 {
     margin-top: 0;
@@ -68,9 +67,6 @@ body {
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
-  .container {
-    max-width: 730px;
-  }
 
   /* Remove the padding we set earlier */
   .header,
@@ -81,10 +77,26 @@ body {
   }
   /* Space out the masthead */
   .header {
-    margin-bottom: 30px;
+    @include common-margin;
   }
   /* Remove the bottom border on the jumbotron for visual effect */
   .jumbotron {
     border-bottom: 0;
   }
 }
+
+/* 表格输入框样式样式 */
+table {
+  input[type="text"] {
+    outline: none;
+    border: none;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    border-bottom: 1px solid #999;
+  }
+}
+
+@import 'form';
+@import 'alert';
+@import 'user-create';

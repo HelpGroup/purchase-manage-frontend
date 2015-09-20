@@ -20,20 +20,18 @@ angular
     'restmod',
     'ui.bootstrap',
     'ngLodash',
-    'angularMoment'
+    'angularMoment',
+    'ui.router'
   ])
-  .run(function ($rootScope, alertService, routeService) {
+  .run(function ($rootScope, authorization, alertService, routeService) {
     // 顶部所有的弹框
     $rootScope.alertService = alertService;
+    $rootScope.authorization = authorization;
+    $rootScope.authorization.init('development'); // 测试环境
     routeService.init();
   })
   .config(function ($routeProvider, restmodProvider, config) {
     $routeProvider
-      .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl',
-        controllerAs: 'main'
-      })
       .when('/about', {
         templateUrl: 'views/about.html',
         controller: 'AboutCtrl',
@@ -69,8 +67,23 @@ angular
         controller: 'ProductCtrl',
         controllerAs: 'product'
       })
+      .when('/product-quantity', {
+        templateUrl: 'views/product-quantity.html',
+        controller: 'ProductQuantityCtrl',
+        controllerAs: 'productQuantity'
+      })
+      .when('/product-stat', {
+        templateUrl: 'views/product-stat.html',
+        controller: 'ProductStatCtrl',
+        controllerAs: 'productStat'
+      })
+      .when('/product-actually-buy', {
+        templateUrl: 'views/product-actually-buy.html',
+        controller: 'ProductActuallyBuyCtrl',
+        controllerAs: 'productActuallyBuy'
+      })
       .otherwise({
-        redirectTo: '/'
+        redirectTo: config.path.LOGIN
       });
     // 对于通用的请求返回字段做相对应的处理, 假如返回403, 则表示没有登录; 假如是404, 这表示没有找到url
     restmodProvider.rebase('handleCommonResponseStatus');

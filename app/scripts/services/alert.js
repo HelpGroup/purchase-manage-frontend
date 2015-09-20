@@ -9,15 +9,35 @@
  */
 angular.module('purchaseManageFrontendApp')
   .service('alertService', function (lodash) {
-    // AngularJS will instantiate a singleton by calling "new" on this function
+    /** eg.
+     *  var alert = {
+     *    type: 'success',
+     *    dismissOnTimeout: 1000,
+     *    code: alertService.codes.LOGIN_SUCCESS,
+     *    msg: '登录成功',
+     *    close: function (index) {
+     *      alertService.closeAlert(index); 
+     *    }
+     *  };
+     *  alertService.alert(alert);   // AngularJS will instantiate a singleton by calling "new" on this function
+     */
     this.alerts = [];
     this.codes = { // alert的所有错误事件代码
-      LOGIN_SUCCESS: 1,
-      USERNAME_OR_PASSWORD_ERR: 2,
-      CREATE_USER_SUCCESS: 3,
-      CREATE_USER_ERR: 4,
-      GET_USER_LIST_ERR: 5,
-      NOT_LOGIN: 6
+      USERNAME_OR_PASSWORD_ERR: {
+        removeEvents: ['PATH_CHANGE']
+      },
+      CREATE_USER_SUCCESS: {
+        removeEvents: ['PATH_CHANGE']
+      },
+      CREATE_USER_ERR: {
+        removeEvents: ['PATH_CHANGE']
+      },
+      GET_USER_LIST_ERR: {
+        removeEvents: ['PATH_CHANGE']
+      },
+      NOT_LOGIN: {
+        removeEvents: ['PATH_CHANGE']
+      }
     };
     this.closeAlert = function(index) {
       this.alerts.splice(index, 1);
@@ -51,6 +71,12 @@ angular.module('purchaseManageFrontendApp')
         alert.close = this.closeAlert.bind(this);
       }
       this.addAlert(alert);
+    };
+
+    this.init = function (event) {
+      lodash.remove(this.alerts, function (alert) {
+        return alert.code.removeEvents !== undefined && alert.code.removeEvents.lastIndexOf(event) >= 0;
+      });
     };
     return this;
   });

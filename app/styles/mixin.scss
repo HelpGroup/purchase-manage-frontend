@@ -1,0 +1,8 @@
+@mixin common-width-layout {
+  max-width: 450px;
+  margin: 0 auto;
+}
+
+@mixin common-margin {
+  margin-bottom: 20px;
+}
