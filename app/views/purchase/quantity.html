@@ -10,7 +10,7 @@
       <td rowspan="{{classify.items.length}}" ng-if="$index === 0">{{classify.name}}</td>
       <td>{{item.name}}</td>
       <td>{{item.unit}}</td>
-      <td><input type="text" ng-model="item.quantity"/></td>
+      <td><input type="text" ng-model="item.quantity" validator="quantity"/></td>
     </tr> 
   </tbody>
 </table>

@@ -12,7 +12,7 @@
       <td>
         <a href="javascript:void(0);" ng-click="productClassify.rename($index)" ng-show="!productClassify.showRenameInput($index)">改名</a>
         <a href="javascript:void(0);" ng-show="productClassify.showRenameInput($index)" ng-click="productClassify.cancelRename($index)">取消改名</a>
-        <a href="javascript:void(0);" ng-click="productClassify.delete(classify)">删除</a>
+        <a href="javascript:void(0);" ng-click="productClassify.delete($index)">删除</a>
         <a ng-href="#/product-classify/1/product?classifyName={{classify.name}}">下属菜品维护</a>
       </td>
     </tr> 
@@ -23,5 +23,5 @@
     </tr>
   </tbody>
 </table>
-<button type="button" class="btn btn-primary" ng-click="productClassify.commitEdit(classify)" ng-class="{disabled: !productClassify.modified}">提交修改</button>
+<button type="button" class="btn btn-primary" ng-click="productClassify.commitEdit()" ng-class="{disabled: !productClassify.modified}">提交修改</button>
 <button type="button" class="btn btn-default", ng-click="productClassify.reset()">复原</button>

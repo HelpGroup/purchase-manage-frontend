@@ -8,7 +8,7 @@
  * Controller of the purchaseManageFrontendApp
  */
 angular.module('purchaseManageFrontendApp')
-  .controller('LoginCtrl', function ($http, $location, authorization, Login, config, alertService, $log) {
+  .controller('LoginCtrl', function ($http, $state, $location, authorization, Login, config, alertService, $log) {
     var login = this;
     this.username = '';
     this.password = '';

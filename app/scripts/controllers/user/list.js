@@ -32,7 +32,7 @@ angular.module('purchaseManageFrontendApp')
         alertService.alert(alert);
       });
     };
-    false && User.$search().$then(function (userList) {
+    User.$search().$then(function (userList) {
       this.userList = userList;
     }.bind(this), function () {
       var alert = {

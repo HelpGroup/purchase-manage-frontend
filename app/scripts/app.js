@@ -20,16 +20,26 @@ angular
     'ui.bootstrap',
     'ngLodash',
     'angularMoment',
-    'ui.router'
+    'ui.router',
+    'validation'
   ])
   .run(function ($rootScope, authorization, alertService, routeService) {
     // 顶部所有的弹框
     $rootScope.alertService = alertService;
     $rootScope.authorization = authorization;
-    $rootScope.authorization.init('development'); // 测试环境
     routeService.init();
   })
-  .config(function ($urlRouterProvider, $stateProvider, restmodProvider, config) {
+  .config(function ($urlRouterProvider, $stateProvider, $validationProvider, restmodProvider, config) {
+    var expression = {
+      quantity: /^[1-9]\d*$|^0$/
+    }; 
+    var defaultMsg = {
+      quantity: {
+        error: '只允许非负整数'
+      }
+    };
+    $validationProvider.setExpression(expression).setDefaultMsg(defaultMsg);
+
     $urlRouterProvider
       .otherwise('/login');
     $stateProvider

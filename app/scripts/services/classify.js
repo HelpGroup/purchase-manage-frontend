@@ -8,6 +8,6 @@
  * Factory in the purchaseManageFrontendApp.
  */
 angular.module('purchaseManageFrontendApp')
-  .factory('Classify', function (restmod) {
-    return restmod.model('/category');
+  .factory('Classify', function (restmod, config) {
+    return restmod.model(config.host + '/category');
   });
