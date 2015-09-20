@@ -28,8 +28,13 @@ angular.module('purchaseManageFrontendApp')
     };
     this.logout = function () {
       var modalInstance = $modal.open({
-        templateUrl: '/views/confirm-quit-modal.html',
-        controller: 'ConfirmQuitModalCtrl'
+        templateUrl: '/views/confirm-modal.html',
+        controller: 'ConfirmModalCtrl',
+        resolve: {
+          message: function () {
+            return '确认退出?';
+          }
+        }
       });
       modalInstance.result.then(function () {
         $cookies.remove(COOKIE_NAME);

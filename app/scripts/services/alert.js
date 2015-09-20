@@ -75,7 +75,7 @@ angular.module('purchaseManageFrontendApp')
 
     this.init = function (event) {
       lodash.remove(this.alerts, function (alert) {
-        return alert.code.removeEvents !== undefined && alert.code.removeEvents.lastIndexOf(event) >= 0;
+        return (null == alert.code) || alert.code.removeEvents !== undefined && alert.code.removeEvents.lastIndexOf(event) >= 0;
       });
     };
     return this;

@@ -1,1 +1,20 @@
-<p>This is the product-stat view.</p>
+<table class="table table-bordered">
+  <thead>
+    <th>分类</th>
+    <th>菜品</th>
+    <th>单位</th>
+    <th>总数量</th>
+    <th ng-repeat="shop in productStat.shops track by $index">{{shop.username}}</th>
+  </thead>
+  <tbody ng-repeat="classify in productStat.list">
+    <tr ng-repeat="item in classify.ingredientList">
+      <td rowspan="{{classify.ingredientList.length}}" ng-if="$index === 0">{{classify.name}}</td>
+      <td>{{item.name}}</td>
+      <td>{{item.unit}}</td>
+      <td>{{item.amount}}</td>
+      <td ng-repeat="amount in item.amounts">{{amount.amount}}</td>
+    </tr> 
+  </tbody>
+</table>
+<button type="button" class="btn btn-primary" ng-click="productStat.lock()">截单</button>
+<button type="button" class="btn btn-default" ng-click="productStat.export()">导出CSV</button>

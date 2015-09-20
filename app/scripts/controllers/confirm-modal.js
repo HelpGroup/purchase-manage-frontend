@@ -8,7 +8,8 @@
  * Controller of the purchaseManageFrontendApp
  */
 angular.module('purchaseManageFrontendApp')
-  .controller('ConfirmQuitModalCtrl', function ($scope, $modalInstance) {
+  .controller('ConfirmModalCtrl', function ($scope, $modalInstance, message) {
+    $scope.message = message;
     $scope.ok = function () {
       $modalInstance.close();
     };
