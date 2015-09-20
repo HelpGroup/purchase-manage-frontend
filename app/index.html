@@ -73,7 +73,7 @@
         <alert type="{{alert.type}}" close="alert.close($index)" dismiss-on-timeout="{{alert.dismissOnTimeout}}" ng-if="alert.dismissOnTimeout">{{alert.msg}}</alert>
         <alert type="{{alert.type}}" close="alert.close($index)" ng-if="!alert.dismissOnTimeout">{{alert.msg}}</alert>
       </div>
-      <div ng-view=""></div>
+      <div ui-view=""></div>
     </div>
 
     <div class="footer">
@@ -129,6 +129,7 @@
     <script src="scripts/controllers/product-actually-buy.js"></script>
     <script src="scripts/controllers/confirm-quit.js"></script>
     <script src="scripts/controllers/confirm-quit-modal.js"></script>
+    <script src="scripts/controllers/purchase/index.js"></script>
     <!-- endbuild -->
 </body>
 </html>

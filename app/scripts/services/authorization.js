@@ -8,7 +8,7 @@
  * Service in the purchaseManageFrontendApp.
  */
 angular.module('purchaseManageFrontendApp')
-  .service('authorization', function ($cookies, $http, $location, $modal, config, moment) {
+  .service('authorization', function ($cookies, $http, $location, $state, $modal, config, moment) {
     var COOKIE_NAME = 'authorization';
     this.setAuthorization = function (token, username, roleId) {
       $cookies.put(COOKIE_NAME, JSON.stringify({
@@ -33,7 +33,7 @@ angular.module('purchaseManageFrontendApp')
       });
       modalInstance.result.then(function () {
         $cookies.remove(COOKIE_NAME);
-        $location.path(config.path.LOGIN);
+        $state.go(config.path.LOGIN);
       });
     };
     this.init = function (type) {

@@ -14,7 +14,6 @@ angular
     'ngCookies',
     'ngMessages',
     'ngResource',
-    'ngRoute',
     'ngSanitize',
     'ngTouch',
     'restmod',
@@ -30,61 +29,81 @@ angular
     $rootScope.authorization.init('development'); // 测试环境
     routeService.init();
   })
-  .config(function ($routeProvider, restmodProvider, config) {
-    $routeProvider
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl',
-        controllerAs: 'about'
-      })
-      .when('/login', {
+  .config(function ($urlRouterProvider, $stateProvider, restmodProvider, config) {
+    $urlRouterProvider
+      .otherwise('/login');
+    $stateProvider
+      .state('login', {
+        url: '/login',
         templateUrl: 'views/login.html',
         controller: 'LoginCtrl',
         controllerAs: 'login'
       })
-      .when(config.path.CREATE_USER, {
+      .state('user', {
+        abstract: true,
+        url: '/user',
+        templateUrl: 'views/user/index.html'
+      })
+      .state('user.create', {
+        url: '/create',
         templateUrl: 'views/user/create.html',
         controller: 'UserCreateCtrl',
         controllerAs: 'userCreate'
       })
-      .when('/user/list', {
+      .state('user.list', {
+        url: '/list',
         templateUrl: 'views/user/list.html',
         controller: 'UserListCtrl',
         controllerAs: 'userList'
       })
-      .when('/user/modify', {
-        templateUrl: 'views/user/modify.html',
+      .state('user.modifyPassword', {
+        url: '/{userId:[0-9]+}/modifyPassword?successPath&username',
+        templateUrl: 'views/user/modifyPassword.html',
         controller: 'UserModifyCtrl',
         controllerAs: 'userModify'
       })
-      .when('/product-classify', {
-        templateUrl: 'views/product-classify.html',
+      .state('classify', {
+        abstract: true,
+        url: '/classify',
+        templateUrl: 'views/classify/index.html'
+      })
+      .state('classify.list', {
+        url: '', 
+        templateUrl: 'views/classify/list.html',
         controller: 'ProductClassifyCtrl',
         controllerAs: 'productClassify'
       })
-      .when('/product-classify/:id/product', {
+      .state('classify.product', {
+        url: '/{classifyId:[0-9]+}/product',
         templateUrl: 'views/product.html',
         controller: 'ProductCtrl',
         controllerAs: 'product'
       })
-      .when('/product-quantity', {
-        templateUrl: 'views/product-quantity.html',
+      .state('purchase', {
+        abstract: true,
+        url: '/purchase',
+        templateUrl: 'views/purchase/index.html',
+        controller: 'PurchaseIndexCtrl',
+        controllerAs: 'purchaseIndex'
+      })
+      .state('purchase.quantity', {
+        url: '/quantity',
+        templateUrl: 'views/purchase/quantity.html',
         controller: 'ProductQuantityCtrl',
         controllerAs: 'productQuantity'
       })
-      .when('/product-stat', {
+      .state('purchase.stat', {
+        url: '/stat',
         templateUrl: 'views/product-stat.html',
         controller: 'ProductStatCtrl',
         controllerAs: 'productStat'
       })
-      .when('/product-actually-buy', {
+      .state('purchase.actually', {
+        url: '/actually',
         templateUrl: 'views/product-actually-buy.html',
         controller: 'ProductActuallyBuyCtrl',
         controllerAs: 'productActuallyBuy'
       })
-      .otherwise({
-        redirectTo: config.path.LOGIN
-      });
     // 对于通用的请求返回字段做相对应的处理, 假如返回403, 则表示没有登录; 假如是404, 这表示没有找到url
     restmodProvider.rebase('handleCommonResponseStatus');
   });

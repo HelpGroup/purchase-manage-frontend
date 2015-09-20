@@ -8,21 +8,23 @@
  * Controller of the purchaseManageFrontendApp
  */
 angular.module('purchaseManageFrontendApp')
-  .controller('UserListCtrl', function ($location, User, alertService, config) {
-    this.userList = [];
+  .controller('UserListCtrl', function ($state, User, alertService, config) {
+    this.userList = [{
+      username: 'lxc',
+      id: 1
+    }];
     this.modifyPassword = function (user) {
-      $location.search({
+      $state.go(config.path.MODIFY_USER_PASSWORD, {
         successPath: config.path.USER_LIST,
         username: user.username,
         userId: user.id
-      })
-      .path(config.path.MODIFY_USER_PASSWORD);
+      });
     };
     this.create = function (user) {
-      $location.path(config.path.CREATE_USER);
+      $state.go(config.path.CREATE_USER);
     };
     this.delete = function (user) {
-      user.$destroy().$then(function () {
+      User.$destroy().$then(function () {
         var alert = {
           msg: '用户删除成功',
           type: 'success'
@@ -30,7 +32,7 @@ angular.module('purchaseManageFrontendApp')
         alertService.alert(alert);
       });
     };
-    User.$search().$then(function (userList) {
+    false && User.$search().$then(function (userList) {
       this.userList = userList;
     }.bind(this), function () {
       var alert = {
