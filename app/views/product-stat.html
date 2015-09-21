@@ -6,7 +6,7 @@
     <th>总数量</th>
     <th ng-repeat="shop in productStat.shops track by $index">{{shop.username}}</th>
   </thead>
-  <tbody ng-repeat="classify in productStat.list">
+  <tbody ng-repeat="classify in productStat.instance.list">
     <tr ng-repeat="item in classify.ingredientList">
       <td rowspan="{{classify.ingredientList.length}}" ng-if="$index === 0">{{classify.name}}</td>
       <td>{{item.name}}</td>
@@ -16,5 +16,5 @@
     </tr> 
   </tbody>
 </table>
-<button type="button" class="btn btn-primary" ng-click="productStat.lock()">截单</button>
+<button type="button" class="btn btn-primary" ng-click="productStat.lock()">{{productStat.instance.lock? '取消截单' : '截单'}}</button>
 <button type="button" class="btn btn-default" ng-click="productStat.export()">导出CSV</button>

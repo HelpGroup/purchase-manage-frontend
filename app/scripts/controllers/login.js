@@ -17,9 +17,13 @@ angular.module('purchaseManageFrontendApp')
         username: this.username,
         password: this.password
       }).$then(function (data) {
-        $state.go(config.path.AFTER_LOGIN);
-        authorization.setAuthorization(data.token, data.username, data.roleId);
+        authorization.setAuthorization(data.token, data.username, data.roleId, data.id);
         authorization.setHttpAuthorizationHeader(data.token);
+        if (1 === data.roleId) {
+          $state.go(config.path.AFTER_LOGIN); 
+        } else {
+          $state.go(config.path.PURCHASE_QUANTITY);
+        }
       }, function($response) {
         var alert = {
           type: 'danger',

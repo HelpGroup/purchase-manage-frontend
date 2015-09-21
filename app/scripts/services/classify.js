@@ -9,5 +9,9 @@
  */
 angular.module('purchaseManageFrontendApp')
   .factory('Classify', function (restmod, config) {
-    return restmod.model(config.host + '/category');
+    return restmod.model(config.host + '/category').mix({
+      ingredient: {
+        hasMany: 'ClassifyIngredientModel'
+      }
+    });
   });

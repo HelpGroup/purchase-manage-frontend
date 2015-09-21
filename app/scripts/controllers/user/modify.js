@@ -8,13 +8,16 @@
  * Controller of the purchaseManageFrontendApp
  */
 angular.module('purchaseManageFrontendApp')
-  .controller('UserModifyCtrl', function ($location, User, alertService) {
+  .controller('UserModifyCtrl', function ($state, $location, User, alertService) {
     // object {successPath: 成功之后的路由; username: 用户名; userId: 用户id}
-    var search = $location.search();
+    var search = $state.params;
     this.user = {
       username: search.username,
       id: search.userId,
       password: ''
+    };
+    this.cancel = function () {
+      $state.go(search.successPath);
     };
     this.modify = function () {
       var user = User.$new(this.user.id)
@@ -26,7 +29,7 @@ angular.module('purchaseManageFrontendApp')
           dismissOnTimeout: 3000
         };
         alertService.alert(alert);
-        $location.path(search.successPath);  
+        $state.go(search.successPath);  
       }, function () {
         var alert = {
           msg: '修改失败',

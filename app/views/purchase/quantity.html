@@ -5,14 +5,21 @@
     <th>单位</th>
     <th>数量</th>
   </thead>
-  <tbody ng-repeat="classify in productQuantity.list">
-    <tr ng-repeat="item in classify.items">
-      <td rowspan="{{classify.items.length}}" ng-if="$index === 0">{{classify.name}}</td>
+  <tbody ng-repeat="classify in productQuantity.instance.categories">
+    <tr ng-repeat="item in classify.ingredientList">
+      <td rowspan="{{classify.ingredientList.length}}" ng-if="$index === 0">{{classify.name}}</td>
       <td>{{item.name}}</td>
       <td>{{item.unit}}</td>
-      <td><input type="text" ng-model="item.quantity" validator="quantity"/></td>
+      <td>
+        <input type="number" ng-model="item.amount" validator="quantity" ng-show="!productQuantity.instance.lock"/>
+        <span ng-show="productQuantity.instance.lock">{{item.amount}}</span>
+      </td>
     </tr> 
   </tbody>
 </table>
-<button type="button" class="btn btn-primary" ng-click="productQuantity.commitEdit()" ng-class="{disabled: !productQuantity.readyForCommit}">提交修改</button>
-<button type="button" class="btn btn-default" ng-click="productQuantity.clear()">清空</button>
+<div class="clearfix">
+  <div class="pull-right">
+    <button type="button" class="btn btn-primary" ng-click="productQuantity.commitEdit()" ng-class="{disabled: productQuantity.instance.lock || !productQuantity.readyForCommit}">{{productQuantity.instance.lock? '已截单' : '提交修改'}}</button>
+    <button type="button" class="btn btn-default" ng-click="productQuantity.clear()" ng-show="!productQuantity.instance.lock">清空</button>
+  </div>
+</div>

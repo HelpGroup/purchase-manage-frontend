@@ -89,7 +89,8 @@ body {
 
 /* 表格输入框样式样式 */
 table {
-  input[type="text"] {
+  input[type="text"],
+  input[type="number"], {
     outline: none;
     border: none;
     height: 100%;

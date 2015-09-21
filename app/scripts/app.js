@@ -23,21 +23,20 @@ angular
     'ui.router',
     'validation'
   ])
-  .run(function ($rootScope, authorization, alertService, routeService) {
-    // 顶部所有的弹框
+  .run(function ($rootScope, $state, $location, authorization, alertService, routeService) {
+    // authorization.init('development', 1); // 管理员
+    authorization.init('development', 2); // 普通门店
+
+    // 顶部所有的弹框服务
     $rootScope.alertService = alertService;
     $rootScope.authorization = authorization;
     routeService.init();
+    $rootScope.$state = $state;
+    $rootScope.$location = $location;
   })
   .config(function ($urlRouterProvider, $stateProvider, $validationProvider, restmodProvider, config) {
-    var expression = {
-      quantity: /^[1-9]\d*$|^0$/
-    }; 
-    var defaultMsg = {
-      quantity: {
-        error: '只允许非负整数'
-      }
-    };
+    var expression = config.expression; 
+    var defaultMsg = config.defaultMsg;
     $validationProvider.setExpression(expression).setDefaultMsg(defaultMsg);
 
     $urlRouterProvider
@@ -84,7 +83,7 @@ angular
         controllerAs: 'productClassify'
       })
       .state('classify.product', {
-        url: '/{classifyId:[0-9]+}/product',
+        url: '/{classifyId:[0-9]+}/product?classifyName',
         templateUrl: 'views/product.html',
         controller: 'ProductCtrl',
         controllerAs: 'product'

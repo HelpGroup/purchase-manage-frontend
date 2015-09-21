@@ -10,11 +10,12 @@
 angular.module('purchaseManageFrontendApp')
   .service('authorization', function ($cookies, $http, $location, $state, $modal, config, moment) {
     var COOKIE_NAME = 'authorization';
-    this.setAuthorization = function (token, username, roleId) {
+    this.setAuthorization = function (token, username, roleId, userId) {
       $cookies.put(COOKIE_NAME, JSON.stringify({
         token: token,
         username: username,
-        roleId: roleId
+        roleId: roleId,
+        userId: userId
       }));
     };
     this.getAuthorization = function () {
@@ -41,10 +42,16 @@ angular.module('purchaseManageFrontendApp')
         $state.go(config.path.LOGIN);
       });
     };
-    this.init = function (type) {
+    this.init = function (type, admin) {
       if ('development' === type) {
-        this.setAuthorization('', 'lxc', 1);
+        this.setAuthorization('', 'lxc', 1, admin);
       };
+    };
+    this.isAdmin = function () {
+      if (null == this.getAuthorization()) {
+        return false;
+      }
+      return this.getAuthorization().roleId === 1;
     };
     return this;
   });

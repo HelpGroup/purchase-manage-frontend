@@ -8,7 +8,7 @@
  * Controller of the purchaseManageFrontendApp
  */
 angular.module('purchaseManageFrontendApp')
-  .controller('UserCreateCtrl', function ($window, User, alertService) {
+  .controller('UserCreateCtrl', function ($window, $state, User, config, alertService) {
     this.validate = function () {
       return true;
     }
@@ -28,6 +28,7 @@ angular.module('purchaseManageFrontendApp')
             }
           };
           alertService.alert(alert); 
+          $state.go(config.path.USER_LIST);
         }, function (res) {
           var alert = {
             type: 'danger',

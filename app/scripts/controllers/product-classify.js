@@ -10,7 +10,6 @@
 angular.module('purchaseManageFrontendApp')
   .controller('ProductClassifyCtrl', function ($scope, $state, Classify, alertService, lodash) {
     var productClassify = this;
-    this.readyDeleteIds = [];
     this.list = [];
     this.renameIndex = -1;
 
@@ -40,7 +39,6 @@ angular.module('purchaseManageFrontendApp')
       this.initRenameIndex();
     };
     this.delete = function (index) {
-      this.readyDeleteIds.push(index);
       this.list.splice(index, 1);
     };
     this.reset = function () {
@@ -129,6 +127,8 @@ angular.module('purchaseManageFrontendApp')
       
     };
     productClassify.commitEdit = function () {
+      // TODO 同名验证
+      
       productClassify.initRenameIndex();
       var modifiedClassifies = productClassify.getModifiedClass();
       var newClassifies = productClassify.getNewClassify();
@@ -188,7 +188,7 @@ angular.module('purchaseManageFrontendApp')
           alertService.alert({
             msg: '修改成功'
           });
-          $state.reload();
+          productClassify.initList();
         }
       });
     };

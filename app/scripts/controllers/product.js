@@ -22,70 +22,170 @@ angular.module('purchaseManageFrontendApp')
       }
     };
   })
-  .controller('ProductCtrl', function ($scope, $location, Classify, lodash) {
+  .controller('ProductCtrl', function ($state, $scope, $location, alertService, Classify, lodash) {
+    var statParams = $state.params;
     var product = this;
-    this.readyDeleteIds = [];
-    this.list = [{
-      id: 1,
-      name: '海带',
-      unit: 'g'
-    }, {
-      id: 2,
-      name: '鲫鱼',
-      unit: '条'
-    }];
-    product.classifyName = $location.search().classifyName;
+    product.createList = []; // 操作过程中创建的数组
+    product.deleteList = []; // 操作过程中删除的数组
+    product.list = [];
+    product.classifyName = $state.params.classifyName;
+    var Ingredient = Classify.$new(statParams.classifyId).ingredient;
 
-    this.initWaitModifyList = function (back) {
+    product.getEditedList = function () {
+      return lodash.filter(product.list, function (item) {
+        var foundOriginalProduct = lodash.findWhere(product.originalList, {
+          id: item.id
+        });
+        if (foundOriginalProduct) {
+          return foundOriginalProduct.name !== item.name || foundOriginalProduct.unit !== item.unit;
+        } else {
+          return false;
+        }
+      });
+    };
+    product.commitEdit = function () {
+      product.editedList = product.getEditedList();
+      // TODO 不并发发送
+      async.series({
+        "delete": function (callback) {
+          async.each(product.deleteList, function (deleted, deleteCallback) {
+            deleted.$destroy().$then(function () {
+              deleteCallback();
+            }, function (err) {
+              deleteCallback(err.$response.data.message);
+            });
+          }, function (err) {
+            if (err) {
+              callback(err);
+            } else {
+              callback();
+            }
+          });
+        },
+        modify: function (callback) {
+          async.each(product.editedList, function (edited, editedCallback) {
+            edited.$save(['name', 'unit']).$then(function () {
+              editedCallback();
+            }, function (err) {
+              editedCallback(err.$response.data.message);
+            });
+          }, function (err) {
+            if (err) {
+              callback(err);
+            } else {
+              callback();
+            }
+          });
+        },
+        create: function (callback) {
+          async.each(product.createList, function (create, createCallback) {
+            Ingredient.$create(create).$then(function () {
+              createCallback();
+            }, function (err) {
+              createCallback(err.$response.data.message);
+            });
+          }, function (err) {
+            if (err) {
+              callback(err);
+            } else {
+              callback();
+            }
+          });
+        },
+      }, function (err) {
+        if (err) {
+          alertService.alert({
+            msg: err,
+            type: 'danger'
+          });
+        } else {
+          alertService.alert({
+            msg: '修改成功'
+          });
+          product.initList();
+        }
+      });
+    };
+    product.create = function () {
+      var newProduct = {
+        name: ''
+      };
+      product.createList.push(newProduct);
+      product.list.push(newProduct);
+      product.initRenameIndex(product.list.length - 1, 'name');
+    };
+
+    product.initList = function () {
+      Ingredient.$search().$then(function (list) {
+        product.list = list;
+        product.initWaitModifyList();
+      });
+      product.deleteList = [];
+      product.createList = [];
+    };
+
+    product.initWaitModifyList = function (back) {
       if (back) {
-        this.list = angular.copy(this.originalList);
+        product.list = angular.copy(product.originalList);
       } else {
-        this.originalList = angular.copy(this.list);
+        product.originalList = angular.copy(product.list);
       }
-      this.modified = true;
+      product.modified = false;
     };
-    this.initRenameIndex = function () {
-      this.renameIndex = null;
+
+    product.initRenameIndex = function (index, type) {
+      if (null != index) {
+        if (null == product.renameIndex) {
+          product.renameIndex = {};
+        }
+        product.renameIndex.index = index;
+        product.renameIndex.type = type;
+      } else {
+        product.renameIndex = null;
+      }
     };
-    this.rename = function (index, type) {
-      this.renameIndex = this.renameIndex || {};
-      this.renameIndex.index = index;
-      this.renameIndex.type = type;
+    product.rename = function (index, type) {
+      product.renameIndex = product.renameIndex || {};
+      product.renameIndex.index = index;
+      product.renameIndex.type = type;
     };
-    this.showRenameInput = function (index, type) {
-      if (this.renameIndex === null) {
+    product.showRenameInput = function (index, type) {
+      if (product.renameIndex === null) {
         return false;
       }
-      return index === this.renameIndex.index && type === this.renameIndex.type;
+      return index === product.renameIndex.index && type === product.renameIndex.type;
     };
-    this.cancelRename = function ($index, type) {
-      this.list[$index][type] = this.originalList[$index][type];
-      this.initRenameIndex();
+    product.cancelRename = function ($index, type) {
+      product.list[$index][type] = product.originalList[$index][type];
+      product.initRenameIndex();
     };
-    this.delete = function (index) {
-      this.readyDeleteIds.push(index);
-      this.list.splice(index, 1);
+    product.delete = function (item, index) {
+      if (null != item.id) {
+        product.deleteList.push(item);
+      }
+      product.list.splice(index, 1);
     };
-    this.reset = function () {
-      this.initWaitModifyList(true);
+    product.reset = function () {
+      product.initWaitModifyList(true);
     };
-    this.confirmRename = function ($event) {
+    product.confirmRename = function ($event) {
       if ($event) {
         if (13 === $event.charCode) {
-          this.initRenameIndex();
+          product.initRenameIndex();
         }
       } else {
-        this.initRenameIndex();
+        product.initRenameIndex();
       }
     };
-    this.whetheModified = function () {
-      for (var listIndex = 0; listIndex < this.list.length; listIndex++) {
-        if (this.list[listIndex].name !== this.originalList[listIndex].name) {
-          return true;
-        }
-        if (this.list[listIndex].id !== this.originalList[listIndex].id) {
-          return true;
-        }
+    product.whetheModified = function () {
+      if (product.deleteList.length > 0) {
+        return true;
+      }
+      if (product.createList.length > 0) {
+        return true;
+      }
+      if (product.getEditedList().length > 0) {
+        return true;
       }
       return false;
     }
@@ -96,6 +196,6 @@ angular.module('purchaseManageFrontendApp')
       product.modified = product.whetheModified(); 
     }, true);
 
-    this.initRenameIndex();
-    this.initWaitModifyList();
+    product.initRenameIndex();
+    product.initList();
   });

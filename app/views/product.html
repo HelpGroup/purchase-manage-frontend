@@ -20,7 +20,7 @@
         <a href="javascript:void(0);" ng-show="product.showRenameInput($index, 'name')" ng-click="product.cancelRename($index, 'name')">取消改名</a>
         <a href="javascript:void(0);" ng-click="product.rename($index, 'unit')" ng-show="!product.showRenameInput($index, 'unit')">更改单位</a>
         <a href="javascript:void(0);" ng-show="product.showRenameInput($index, 'unit')" ng-click="product.cancelRename($index, 'unit')">取消更改单位</a>
-        <a href="javascript:void(0);" ng-click="product.delete(item)">删除</a>
+        <a href="javascript:void(0);" ng-click="product.delete(item, $index)">删除</a>
       </td>
     </tr> 
     <tr>
