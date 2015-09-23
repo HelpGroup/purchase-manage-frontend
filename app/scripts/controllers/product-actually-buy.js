@@ -8,34 +8,50 @@
  * Controller of the purchaseManageFrontendApp
  */
 angular.module('purchaseManageFrontendApp')
-  .controller('ProductActuallyBuyCtrl', function ($scope, lodash) {
+  .controller('ProductActuallyBuyCtrl', function ($scope, PurchaseChargeModel, commonTimeService, moment, lodash) {
     var productActuallyBuy = this;
-    productActuallyBuy.list = [{       
-      id: 1,
-      name: '蔬菜',
-      items: [{
-        name: '青菜',
+    commonTimeService.dt = moment(new Date()).add(-1 , 'd').toDate();
+    commonTimeService.maxDate = moment(new Date()).add(-1 , 'd').toDate();
+
+    productActuallyBuy.instance = {
+      list: [{       
         id: 1,
-        unit: 'g',
-        quantity: 1,
-        actuallyAmount: '',
-        actuallyExpense: ''
-      }, {
-        name: '白萝卜',
-        id: 2,
-        unit: 'g',
-        quantity: 1,
-        actuallyAmount: '',
-        actuallyExpense: ''
-      }]
-    }];
+        name: '蔬菜',
+        items: [{
+          name: '青菜',
+          id: 1,
+          unit: 'g',
+          quantity: 1,
+          actuallyAmount: '',
+          actuallyExpense: ''
+        }, {
+          name: '白萝卜',
+          id: 2,
+          unit: 'g',
+          quantity: 1,
+          actuallyAmount: '',
+          actuallyExpense: ''
+        }]
+      }] 
+    };
     productActuallyBuy.readyForCommit = true;
+  
+    productActuallyBuy.initInstance = function () {
+      PurchaseChargeModel.$fetch().$then(function (purchaseChangeInstance) {
+        productActuallyBuy.instance = purchaseChangeInstance;
+      });
+    };
 
     productActuallyBuy.export = function () {
-      // TODO
+      PurchaseChargeModel.$new()
     };
+
     productActuallyBuy.commitEdit = function () {
-      // TODO
+      PurchaseChargeModel.instance.$save().$then(function () {
+        alert('提交成功!');
+      }, function () {
+        alert('提交失败!');
+      });
     };
     $scope.$watch(function () {
       return productActuallyBuy.list

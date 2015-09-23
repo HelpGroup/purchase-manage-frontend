@@ -8,7 +8,9 @@
  * Controller of the purchaseManageFrontendApp
  */
 angular.module('purchaseManageFrontendApp')
-  .controller('ProductQuantityCtrl', function ($scope, PurchaseQuantityModel, lodash, alertService, config) {
+  .controller('ProductQuantityCtrl', function ($scope, PurchaseQuantityModel, commonTimeService, moment, lodash, alertService, config) {
+    commonTimeService.dt = moment(new Date()).toDate();
+    commonTimeService.maxDate = moment(new Date()).toDate();
     var productQuantity = this;
     productQuantity.instance = {
       categories: [{       

@@ -13,5 +13,6 @@ angular.module('purchaseManageFrontendApp')
     this.getToday = function () {
       return moment(new Date()).format('YYYY-MM-DD'); 
     };
+    this.dt = null; // 日历控件的选中的日期值, js的date对象
     return this;
   });

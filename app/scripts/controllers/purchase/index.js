@@ -8,6 +8,7 @@
  * Controller of the purchaseManageFrontendApp
  */
 angular.module('purchaseManageFrontendApp')
-  .controller('PurchaseIndexCtrl', function () {
-
+  .controller('PurchaseIndexCtrl', function (commonTimeService) {
+    var purchaseIndex = this;
+    purchaseIndex.commonTimeService = commonTimeService;
   });

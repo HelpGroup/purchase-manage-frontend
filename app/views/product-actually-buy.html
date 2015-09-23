@@ -7,14 +7,14 @@
     <th>实际采购量</th>
     <th>采购总价</th>
   </thead>
-  <tbody ng-repeat="classify in productActuallyBuy.list">
+  <tbody ng-repeat="classify in productActuallyBuy.instance.list">
     <tr ng-repeat="item in classify.items">
       <td rowspan="{{classify.items.length}}" ng-if="$index === 0">{{classify.name}}</td>
       <td>{{item.name}}</td>
       <td>{{item.unit}}</td>
       <td>{{item.quantity}}</td>
-      <td><input type="text" ng-model="item.actuallyAmount"/></td>
-      <td><input type="text" ng-model="item.actuallyExpense"/></td>
+      <td><input type="number" ng-model="item.actuallyAmount" validator="quantity"/></td>
+      <td><input type="number" ng-model="item.actuallyExpense" validator="money" /></td>
     </tr> 
   </tbody>
 </table>

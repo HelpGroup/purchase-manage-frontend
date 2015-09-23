@@ -10,4 +10,8 @@
 angular.module('purchaseManageFrontendApp')
   .factory('PurchaseQuantityModel', function (restmod, config) {
     return restmod.model(config.host + '/amount/branch');
+  })
+  .factory('PurchaseChargeModel', function (restmod, config) {
+    return restmod.model(config.host + '/amount/admin');
   });
+  
