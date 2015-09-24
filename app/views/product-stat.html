@@ -4,7 +4,7 @@
     <th>菜品</th>
     <th>单位</th>
     <th>总数量</th>
-    <th ng-repeat="shop in productStat.shops track by $index">{{shop.username}}</th>
+    <th ng-repeat="user in productStat.instance.users track by $index">{{user.username}}</th>
   </thead>
   <tbody ng-repeat="classify in productStat.instance.list">
     <tr ng-repeat="item in classify.ingredientList">

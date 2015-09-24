@@ -9,8 +9,7 @@
  */
 angular.module('purchaseManageFrontendApp')
   .constant('config', {
-    // host: 'http://10.10.10.223:8083/purchase',
-    host: 'http://localhost:9000/purchase',
+    host: 'http://10.10.10.223:8083/purchase',
     path: {
       LOGIN: 'login',
       CREATE_USER: 'user.create',
@@ -32,3 +31,4 @@ angular.module('purchaseManageFrontendApp')
       }
     }
   });
+

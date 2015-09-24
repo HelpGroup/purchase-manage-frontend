@@ -8,46 +8,40 @@
  * Controller of the purchaseManageFrontendApp
  */
 angular.module('purchaseManageFrontendApp')
-  .controller('ProductActuallyBuyCtrl', function ($scope, PurchaseChargeModel, commonTimeService, moment, lodash) {
+  .controller('ProductActuallyBuyCtrl', function ($scope, $window, config, PurchaseChargeModel, commonTimeService, moment, lodash) {
     var productActuallyBuy = this;
     commonTimeService.dt = moment(new Date()).add(-1 , 'd').toDate();
     commonTimeService.maxDate = moment(new Date()).add(-1 , 'd').toDate();
+    commonTimeService.chooseDate = function () {
+      productActuallyBuy.initInstance();
+    };
 
     productActuallyBuy.instance = {
-      list: [{       
-        id: 1,
-        name: '蔬菜',
-        items: [{
-          name: '青菜',
-          id: 1,
-          unit: 'g',
-          quantity: 1,
-          actuallyAmount: '',
-          actuallyExpense: ''
-        }, {
-          name: '白萝卜',
-          id: 2,
-          unit: 'g',
-          quantity: 1,
-          actuallyAmount: '',
-          actuallyExpense: ''
-        }]
-      }] 
+      chargeList: [] 
     };
     productActuallyBuy.readyForCommit = true;
   
     productActuallyBuy.initInstance = function () {
-      PurchaseChargeModel.$fetch().$then(function (purchaseChangeInstance) {
-        productActuallyBuy.instance = purchaseChangeInstance;
+      var dateMoment = moment(new Date(commonTimeService.dt));
+      var date = dateMoment.format('YYYY-MM-DD');
+      var dateLocal = dateMoment.format('YYYY年MM月DD日');
+      PurchaseChargeModel.$new(date).$fetch().$then(function (purchaseChangeInstance) {
+        if (2 === purchaseChangeInstance.status) {
+          alert(dateLocal + '未截单');
+          productActuallyBuy.instance = {};
+        } else {
+          productActuallyBuy.instance = purchaseChangeInstance;
+        }
       });
     };
 
     productActuallyBuy.export = function () {
-      PurchaseChargeModel.$new()
+      var date = moment(new Date(commonTimeService.dt)).format('YYYY-MM-DD');
+      $window.open(config.host + '/charge/admin/' + date + '/csv')
     };
 
     productActuallyBuy.commitEdit = function () {
-      PurchaseChargeModel.instance.$save().$then(function () {
+      productActuallyBuy.instance.$save(['chargeList']).$then(function () {
         alert('提交成功!');
       }, function () {
         alert('提交失败!');
@@ -57,10 +51,12 @@ angular.module('purchaseManageFrontendApp')
       return productActuallyBuy.list
     }, function (list) {
       productActuallyBuy.readyForCommit = lodash.every(list, function (classify) {
-        return lodash.every(classify.items, function (item) {
-          return item.actuallyAmount != null && item.actuallyAmount.trim() !== '' && item.actuallyExpense != null && item.actuallyExpense.trim() !== ''
+        return lodash.every(classify.finances, function (item) {
+          return item.actualBuy != null && item.actualBuy.trim() !== '' && item.totalCharge != null && item.totalCharge.trim() !== ''
         });
       });
     }, true);
+
+    productActuallyBuy.initInstance();
 
   });

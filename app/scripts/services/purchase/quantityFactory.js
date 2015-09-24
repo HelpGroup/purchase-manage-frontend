@@ -12,6 +12,13 @@ angular.module('purchaseManageFrontendApp')
     return restmod.model(config.host + '/amount/branch');
   })
   .factory('PurchaseChargeModel', function (restmod, config) {
-    return restmod.model(config.host + '/amount/admin');
+    return restmod.model(config.host + '/charge/admin').mix({
+      csv: {
+        hasOne: 'CSV'
+      }
+    });
+  })
+  .factory('CSV', function (restmod, config) {
+    return restmod.model();
   });
   

@@ -32,7 +32,9 @@
               <span class="icon-bar"></span>
             </button>
 
-            <a class="navbar-brand" href="#/"></a>
+            <a class="navbar-brand" href="#/">
+              <img src="/images/logo.jpg" style="width: 74px;margin-top: -11px;">
+            </a>
           </div>
 
           <div class="collapse navbar-collapse" id="js-navbar-collapse">
@@ -49,6 +51,7 @@
                 <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">集中采购<span class="caret"></span></a>
                 <ul class="dropdown-menu">
                   <li><a href="#/purchase/stat">采购需求汇总</a></li>
+                  <li><a href="#/purchase/actually">采购金额录入</a></li>
                 </ul>
               </li>
 
@@ -61,7 +64,7 @@
               </li>
             </ul>
             <p class="navbar-text navbar-right">
-            <a ng-href="{{modifyUserUrl}}">{{authorization.getAuthorization().username}}</a>, 欢迎您, <a href="javascript:void(0);" ng-click="authorization.logout()">退出</a>
+            <a>{{authorization.getAuthorization().username}}</a>, 欢迎您, <a href="javascript:void(0);" ng-click="authorization.logout()">退出</a>
             </p>
           </div>
         </div>
@@ -135,7 +138,6 @@
     <script src="scripts/services/purchase/statService.js"></script>
     <script src="scripts/services/common/timeservice.js"></script>
     <script src="scripts/services/classify/ingredientfactory.js"></script>
-    <script src="scripts/services/admin/stat.js"></script>
     <script src="scripts/services/purchase/quantityfactory.js"></script>
     <!-- endbuild -->
 </body>

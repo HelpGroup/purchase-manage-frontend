@@ -14,5 +14,7 @@ angular.module('purchaseManageFrontendApp')
       return moment(new Date()).format('YYYY-MM-DD'); 
     };
     this.dt = null; // 日历控件的选中的日期值, js的date对象
+    this.chooseDate = function () {}; // 选择日期触发的函数, 等待重写
     return this;
   });
+

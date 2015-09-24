@@ -11,6 +11,10 @@ angular.module('purchaseManageFrontendApp')
   .controller('UserModifyCtrl', function ($state, $location, User, alertService) {
     // object {successPath: 成功之后的路由; username: 用户名; userId: 用户id}
     var search = $state.params;
+    this.messages = {
+      notEqual: false,
+      empty: false
+    };
     this.user = {
       username: search.username,
       id: search.userId,
@@ -20,6 +24,16 @@ angular.module('purchaseManageFrontendApp')
       $state.go(search.successPath);
     };
     this.modify = function () {
+      if (this.validateEmpty()) {
+        this.messages.empty = true;
+        this.message.notEqual = false;
+        return false;
+      }
+      if (this.validateNotEqual()) {
+        this.messages.notEqual = true;
+        this.messages.empty = false;
+        return false;
+      }
       var user = User.$new(this.user.id)
       user.password = this.user.password;
       user.$save(['password']).$then(function () {
@@ -38,4 +52,13 @@ angular.module('purchaseManageFrontendApp')
         alertService.alert(alert);
       });
     };
+
+    this.validateNotEqual = function () {
+      return $.trim(this.user.password) !== $.trim(this.user.repeatPassword);
+    };
+
+    this.validateEmpty = function () {
+      return '' === $.trim(this.user.password) || '' === $.trim(this.user.repeatPassword);
+    };
+
   });

@@ -20,13 +20,16 @@ angular.module('purchaseManageFrontendApp')
           authorization.setHttpAuthorizationHeader(token);
           if (toState.name === config.path.LOGIN) {
             if (authorizationValue.roleId === 1) {
+              event.preventDefault();
               $state.go(config.path.AFTER_LOGIN);
             } else {
+              event.preventDefault();
               $state.go(config.path.PURCHASE_QUANTITY);
             }
           }
         } else {
           if (toState.name !== config.path.LOGIN) {
+            event.preventDefault();
             $state.go(config.path.LOGIN);
           }
         }

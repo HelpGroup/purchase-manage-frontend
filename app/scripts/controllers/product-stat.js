@@ -8,16 +8,13 @@
  * Controller of the purchaseManageFrontendApp
  */
 angular.module('purchaseManageFrontendApp')
-  .controller('ProductStatCtrl', function (StatModel, $modal, moment, alertService, commonTimeService) {
+  .controller('ProductStatCtrl', function (PurchaseAmountModel, StatModel, $modal, $window, config, moment, alertService, commonTimeService) {
+    commonTimeService.dt = new Date();
+    commonTimeService.maxDate = new Date();
+    commonTimeService.chooseDate = function () {
+      productStat.getInstance(commonTimeService.dt);
+    };
     var productStat = this;
-    productStat.shops = [{
-      username: '001店',
-      id: 1
-    }, {
-      username: '002店',
-      id: 2
-    }];
-
     productStat.instance = {
       lock: false,
       list: [
@@ -69,7 +66,12 @@ angular.module('purchaseManageFrontendApp')
             }
           ]
         }
-      ]
+      ],
+      users: []
+    };
+
+    productStat.export = function () {
+      $window.open(config.host + '/amount/' + moment(new Date(commonTimeService.dt)).format('YYYY-MM-DD') + '/csv');
     };
 
     productStat.lock = function (day) {
@@ -87,22 +89,30 @@ angular.module('purchaseManageFrontendApp')
         productStatInstance.lock = true;
         productStatInstance.$save(['lock']).$then(function () {
           alertService.alert({
-            message: '截单成功!'
+            msg: '截单成功!'
           });
         }, function () {
           alertService.alert({
             msg: '截单失败!'
           });
+          productStatInstance.lock = false;
         });
       });
     };
 
-    productStat.getInstance = function () {
-      StatModel.$new(commonTimeService.getToday()).$fetch(function (statInstance) {
+    productStat.getInstance = function (date) {
+      var date = date || null;
+      if (null != date) {
+        date = moment(date).format('YYYY-MM-DD'); 
+      } else {
+        date = commonTimeService.getToday();
+      }
+      PurchaseAmountModel.$new(date).$fetch().$then(function (statInstance) {
         productStat.instance = statInstance;
       }, function () {
         alert('获取统计数据错误');
       });
     };
-
+    
+    productStat.getInstance();
   });

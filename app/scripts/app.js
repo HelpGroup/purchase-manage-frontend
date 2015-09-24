@@ -25,7 +25,7 @@ angular
   ])
   .run(function ($rootScope, $state, $location, authorization, alertService, routeService) {
     // authorization.init('development', 1); // 管理员
-    authorization.init('development', 2); // 普通门店
+    // authorization.init('development', 2); // 普通门店
 
     // 顶部所有的弹框服务
     $rootScope.alertService = alertService;

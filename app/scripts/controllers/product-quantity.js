@@ -11,32 +11,24 @@ angular.module('purchaseManageFrontendApp')
   .controller('ProductQuantityCtrl', function ($scope, PurchaseQuantityModel, commonTimeService, moment, lodash, alertService, config) {
     commonTimeService.dt = moment(new Date()).toDate();
     commonTimeService.maxDate = moment(new Date()).toDate();
+    commonTimeService.minDate = moment(new Date()).toDate();
+
     var productQuantity = this;
     productQuantity.instance = {
-      categories: [{       
-        id: 1,
-        name: '蔬菜',
-        ingredientList: [{
-          name: '青菜',
-          id: 1,
-          unit: 'g',
-          amount: ''
-        }, {
-          name: '白萝卜',
-          id: 2,
-          unit: 'g',
-          amount: ''
-        }]
-      }],
+      categories: [],
       lock: false
     };
     productQuantity.readyForCommit = false;
 
     productQuantity.commitEdit = function () {
+      if (!productQuantity.readyForCommit) {
+        return false;
+      }
       productQuantity.instance.$save().$then(function () {
         alertService.alert({
           msg: '录入成功'
         });
+        productQuantity = readyForCommit = false;
       }, function () {
         alert('录入失败');
       });
@@ -50,7 +42,8 @@ angular.module('purchaseManageFrontendApp')
       });
     };
     productQuantity.getInstance = function () {
-      PurchaseQuantityModel.$search(function (purchaseQuantityInstance) {
+      var date = moment(new Date(commonTimeService.dt)).format('YYYY-MM-DD'); 
+      PurchaseQuantityModel.$new(date).$fetch().$then(function (purchaseQuantityInstance) {
         productQuantity.instance = purchaseQuantityInstance;
       }, function (err) {
         alert(err.$response.data.message);
@@ -59,7 +52,10 @@ angular.module('purchaseManageFrontendApp')
 
     $scope.$watch(function () {
       return productQuantity.instance.categories;  
-    }, function (list) {
+    }, function (list, oldList) {
+      if (0 === oldList.length) {
+        return false; 
+      }
       productQuantity.readyForCommit = lodash.every(list, function (classify) {
         return lodash.every(classify.ingredientList, function (item) {
           return config.expression.quantity.test(item.amount);

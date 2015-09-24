@@ -24,10 +24,11 @@ angular.module('purchaseManageFrontendApp')
       $state.go(config.path.CREATE_USER);
     };
     this.delete = function (user) {
-      User.$destroy().$then(function () {
+      user.$destroy().$then(function () {
         var alert = {
           msg: '用户删除成功',
-          type: 'success'
+          type: 'success',
+          dismissOnTimeout: 3000
         };
         alertService.alert(alert);
       });
