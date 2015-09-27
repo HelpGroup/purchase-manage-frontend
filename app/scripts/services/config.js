@@ -9,7 +9,7 @@
  */
 angular.module('purchaseManageFrontendApp')
   .constant('config', {
-    host: 'http://10.10.10.223:8083/purchase',
+    host: 'http://julienbrks.pw:8080/purchase',
     path: {
       LOGIN: 'login',
       CREATE_USER: 'user.create',
