@@ -8,8 +8,7 @@
  * Controller of the purchaseManageFrontendApp
  */
 angular.module('purchaseManageFrontendApp')
-  .controller('LoginCtrl', function ($http, $state, $location, authorization, Login, config, alertService, $log) {
-    var login = this;
+  .controller('LoginCtrl', function ($http, $state, $location, authorization, Login, config, alertService) {
     this.username = '';
     this.password = '';
     this.login = function () {
@@ -24,7 +23,7 @@ angular.module('purchaseManageFrontendApp')
         } else {
           $state.go(config.path.PURCHASE_QUANTITY);
         }
-      }, function($response) {
+      }, function() {
         var alert = {
           type: 'danger',
           msg: '用户名或者密码错误',

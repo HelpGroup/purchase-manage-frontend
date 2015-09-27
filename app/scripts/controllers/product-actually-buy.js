@@ -39,22 +39,22 @@ angular.module('purchaseManageFrontendApp')
 
     productActuallyBuy.export = function () {
       var date = moment(new Date(commonTimeService.dt)).format('YYYY-MM-DD');
-      $window.open(config.host + '/charge/admin/' + date + '/csv')
+      $window.open(config.host + '/charge/admin/' + date + '/csv');
     };
 
     productActuallyBuy.commitEdit = function () {
       productActuallyBuy.instance.$save(['chargeList']).$then(function () {
-        alert('提交成功!');
+        $window.alert('提交成功!');
       }, function () {
-        alert('提交失败!');
+        $window.alert('提交失败!');
       });
     };
     $scope.$watch(function () {
-      return productActuallyBuy.list
+      return productActuallyBuy.list;
     }, function (list) {
       productActuallyBuy.readyForCommit = lodash.every(list, function (classify) {
         return lodash.every(classify.finances, function (item) {
-          return item.actualBuy != null && item.actualBuy.trim() !== '' && item.totalCharge != null && item.totalCharge.trim() !== ''
+          return item.actualBuy !== undefined && item.actualBuy !== null && item.actualBuy.trim() !== '' && item.totalCharge !== undefined && item.totalCharge !== null && item.totalCharge.trim() !== '';
         });
       });
     }, true);

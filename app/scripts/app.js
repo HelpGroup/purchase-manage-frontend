@@ -39,7 +39,7 @@ angular
     var defaultMsg = config.defaultMsg;
     $validationProvider.setExpression(expression).setDefaultMsg(defaultMsg);
 
-    $urlRouterProvider.otherwise(function($injector, $location) {
+    $urlRouterProvider.otherwise(function($injector) {
       var $state = $injector.get("$state");
       $state.go("login");
     });
@@ -114,7 +114,7 @@ angular
         templateUrl: 'views/product-actually-buy.html',
         controller: 'ProductActuallyBuyCtrl',
         controllerAs: 'productActuallyBuy'
-      })
+      });
     // 对于通用的请求返回字段做相对应的处理, 假如返回403, 则表示没有登录; 假如是404, 这表示没有找到url
     restmodProvider.rebase('handleCommonResponseStatus');
   });
