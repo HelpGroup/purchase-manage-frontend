@@ -1,5 +1,10 @@
 @import 'mixin';
 .alert {
-  @include common-width-layout;
-  margin-bottom: 20px;
+  position: fixed;
+  width: 320px;
+  margin: 0 auto;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  top: 0;
 }

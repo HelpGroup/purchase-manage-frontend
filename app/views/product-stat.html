@@ -16,5 +16,5 @@
     </tr> 
   </tbody>
 </table>
-<button type="button" class="btn btn-primary" ng-click="productStat.lock()">{{productStat.instance.lock? '取消截单' : '截单'}}</button>
+<button type="button" class="btn btn-primary" ng-click="productStat.toggleLock()">{{productStat.instance.lock? '取消截单' : '截单'}}</button>
 <button type="button" class="btn btn-default" ng-click="productStat.export()">导出CSV</button>

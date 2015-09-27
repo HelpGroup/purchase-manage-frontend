@@ -18,5 +18,7 @@
     </tr> 
   </tbody>
 </table>
-<button type="button" class="btn btn-primary" ng-click="productActuallyBuy.commitEdit()" ng-class="{disabled: !productActuallyBuy.readyForCommit}">提交</button>
-<button type="button" class="btn btn-default" ng-click="productActuallyBuy.export()">导出CSV</button>
+<div ng-show="productActuallyBuy.instance !== null">
+  <button type="button" class="btn btn-primary" ng-click="productActuallyBuy.commitEdit()" ng-class="{disabled: !productActuallyBuy.readyForCommit}">提交</button>
+  <button type="button" class="btn btn-default" ng-click="productActuallyBuy.export()">导出CSV</button>
+</div>

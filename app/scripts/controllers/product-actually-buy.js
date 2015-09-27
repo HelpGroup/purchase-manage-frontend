@@ -8,7 +8,7 @@
  * Controller of the purchaseManageFrontendApp
  */
 angular.module('purchaseManageFrontendApp')
-  .controller('ProductActuallyBuyCtrl', function ($scope, $window, config, PurchaseChargeModel, commonTimeService, moment, lodash) {
+  .controller('ProductActuallyBuyCtrl', function ($scope, $window, config, PurchaseChargeModel, commonTimeService, moment, lodash, alertService) {
     var productActuallyBuy = this;
     commonTimeService.dt = moment(new Date()).add(-1 , 'd').toDate();
     commonTimeService.maxDate = moment(new Date()).add(-1 , 'd').toDate();
@@ -16,9 +16,7 @@ angular.module('purchaseManageFrontendApp')
       productActuallyBuy.initInstance();
     };
 
-    productActuallyBuy.instance = {
-      chargeList: [] 
-    };
+    productActuallyBuy.instance = null;
     productActuallyBuy.readyForCommit = true;
   
     productActuallyBuy.initInstance = function () {
@@ -27,10 +25,14 @@ angular.module('purchaseManageFrontendApp')
       var dateLocal = dateMoment.format('YYYY年MM月DD日');
       PurchaseChargeModel.$new(date).$fetch().$then(function (purchaseChangeInstance) {
         if (2 === purchaseChangeInstance.status) {
-          alert(dateLocal + '未截单');
-          productActuallyBuy.instance = {};
+          alertService.alert({
+            msg: dateLocal + '未截单',
+            code: 'NOT_LOCK'
+          });
+          productActuallyBuy.instance = null;
         } else {
           productActuallyBuy.instance = purchaseChangeInstance;
+          alertService.removeAlert('NOT_LOCK');
         }
       });
     };

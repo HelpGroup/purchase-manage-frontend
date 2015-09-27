@@ -39,8 +39,10 @@ angular
     var defaultMsg = config.defaultMsg;
     $validationProvider.setExpression(expression).setDefaultMsg(defaultMsg);
 
-    $urlRouterProvider
-      .otherwise('/login');
+    $urlRouterProvider.otherwise(function($injector, $location) {
+      var $state = $injector.get("$state");
+      $state.go("login");
+    });
     $stateProvider
       .state('login', {
         url: '/login',

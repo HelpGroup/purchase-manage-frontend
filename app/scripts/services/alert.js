@@ -39,17 +39,20 @@ angular.module('purchaseManageFrontendApp')
         removeEvents: ['PATH_CHANGE']
       }
     };
+    this.removeAlert = function (code) {
+      lodash.remove(this.alerts, function (alert) {
+        return alert.code === code;
+      });
+    };
     this.closeAlert = function(index) {
       this.alerts.splice(index, 1);
     };
     this.addAlert = function (alert) {
       // 相同code的提示不会再出现
-      var foundSameCodeAlert = lodash.findWhere(this.alerts, {
+      lodash.remove(this.alerts, {
         code: alert.code
       });
-      if (undefined === foundSameCodeAlert) {
-        this.alerts.push(alert);
-      }
+      this.alerts.push(alert);
     };
     /**
      * @ngdoc alert
@@ -70,7 +73,7 @@ angular.module('purchaseManageFrontendApp')
         alert.dismissOnTimeout = false;
         alert.close = this.closeAlert.bind(this);
       }
-      this.addAlert(alert);
+      this.alerts = [alert];
     };
 
     this.init = function (event) {
