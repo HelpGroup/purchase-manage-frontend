@@ -8,7 +8,7 @@
  * Service in the purchaseManageFrontendApp.
  */
 angular.module('purchaseManageFrontendApp')
-  .service('commonTimeService', function (moment) {
+  .service('commonStringService', function (moment) {
     this.toCDB = function (str) { 
       var tmp = ""; 
       for(var i=0;i<str.length;i++) { 

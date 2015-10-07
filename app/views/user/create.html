@@ -7,6 +7,10 @@
     <input type="password" id="inputPassword" class="form-control" placeholder="请输入密码" required="" ng-model="userCreate.password">
     <label for="inputPassword" class="sr-only">重复密码</label>
     <input type="password" id="inputPassword" class="form-control" placeholder="请输入密码" required="" ng-model="userCreate.repeatPassword">
+    <div ng-messages="userCreate.messages">
+      <span style="color:maroon" ng-message="empty">不能为空</span>
+      <span style="color:maroon" ng-message="notEqual">密码不相等</span>
+    </div>
     <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="userCreate.create()">创建</button>
     <button class="btn btn-lg btn-primary btn-block" ng-click="userCreate.cancel()">放弃</button>
   </form>

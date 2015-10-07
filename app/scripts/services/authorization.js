@@ -10,6 +10,7 @@
 angular.module('purchaseManageFrontendApp')
   .service('authorization', function ($cookies, $http, $location, $state, $modal, config, moment) {
     var COOKIE_NAME = 'authorization';
+    var self = this;
     this.setAuthorization = function (token, username, roleId, userId) {
       $cookies.put(COOKIE_NAME, JSON.stringify({
         token: token,
@@ -25,11 +26,11 @@ angular.module('purchaseManageFrontendApp')
       $http.defaults.headers.common.token = token;
     };
     this.isLogined = function () {
-      return this.getAuthorization() !== undefined; 
+      return this.getAuthorization() !== undefined;
     };
     this.logout = function () {
       var modalInstance = $modal.open({
-        templateUrl: '/views/confirm-modal.html',
+        templateUrl: 'views/confirm-modal.html',
         controller: 'ConfirmModalCtrl',
         resolve: {
           message: function () {
@@ -38,9 +39,12 @@ angular.module('purchaseManageFrontendApp')
         }
       });
       modalInstance.result.then(function () {
-        $cookies.remove(COOKIE_NAME);
-        $state.go(config.path.LOGIN);
+        self.removeLocalAuthorization();
       });
+    };
+    this.removeLocalAuthorization = function () {
+      $cookies.remove(COOKIE_NAME);
+      $state.go(config.path.LOGIN);
     };
     this.init = function (type, admin) {
       if ('development' === type) {

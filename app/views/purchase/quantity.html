@@ -11,7 +11,7 @@
       <td>{{item.name}}</td>
       <td>{{item.unit}}</td>
       <td>
-        <input type="number" ng-model="item.amount" validator="quantity" ng-show="!productQuantity.instance.lock"/>
+        <input type="text" ng-model="item.amount" validator="quantity" ng-show="!productQuantity.instance.lock" ng-change="productQuantity.toCDB(item, 'amount')" />
         <span ng-show="productQuantity.instance.lock">{{item.amount}}</span>
       </td>
     </tr> 

@@ -9,6 +9,7 @@
  */
 angular.module('purchaseManageFrontendApp')
   .controller('ProductStatCtrl', function (PurchaseAmountModel, StatModel, $modal, $window, config, moment, alertService, commonTimeService) {
+    commonTimeService.init();
     commonTimeService.dt = new Date();
     commonTimeService.maxDate = new Date();
     commonTimeService.chooseDate = function () {

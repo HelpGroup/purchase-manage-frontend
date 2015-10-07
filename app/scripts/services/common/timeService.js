@@ -10,6 +10,11 @@
 angular.module('purchaseManageFrontendApp')
   .service('commonTimeService', function (moment) {
     // AngularJS will instantiate a singleton by calling "new" on this function
+    this.init =  function () {
+      this.dt = null;
+      this.maxDate = null;
+      this.minDate = null;
+    };
     this.getToday = function () {
       return moment(new Date()).format('YYYY-MM-DD'); 
     };

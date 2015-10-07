@@ -9,7 +9,7 @@
         <td>{{user.username}}</td>
         <td class="text-right">
           <a href="javascript:void(0);" ng-click="userList.modifyPassword(user)">修改密码</a>
-          <a href="javascript:void(0);" ng-click="userList.delete(user)">删除</a>
+          <a href="javascript:void(0);" ng-click="userList.delete(user)" ng-hide="userBaseService.isAdmin(user)">删除</a>
         </td>
       </tr> 
       <tr>

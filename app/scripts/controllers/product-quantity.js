@@ -8,19 +8,13 @@
  * Controller of the purchaseManageFrontendApp
  */
 angular.module('purchaseManageFrontendApp')
-  .controller('ProductQuantityCtrl', function ($scope, PurchaseQuantityModel, commonTimeService, moment, lodash, alertService, config) {
+  .controller('ProductQuantityCtrl', function ($scope, PurchaseQuantityModel, commonTimeService, commonStringService, commonConfirmService, moment, lodash, alertService, config) {
     commonTimeService.dt = moment(new Date()).toDate();
     commonTimeService.maxDate = moment(new Date()).toDate();
     commonTimeService.minDate = moment(new Date()).toDate();
 
     var productQuantity = this;
-    productQuantity.instance = {
-      categories: [],
-      lock: false
-    };
-    productQuantity.readyForCommit = false;
-
-    productQuantity.commitEdit = function () {
+    var afterConfirmCommit = function () {
       if (!productQuantity.readyForCommit) {
         return false;
       }
@@ -28,10 +22,22 @@ angular.module('purchaseManageFrontendApp')
         alertService.alert({
           msg: '录入成功'
         });
-        productQuantity = readyForCommit = false;
+        productQuantity.readyForCommit = false;
       }, function () {
         alert('录入失败');
       });
+    };
+    productQuantity.toCDB = function (item, key) {
+      item[key] = commonStringService.toCDB(item[key]);
+    };
+    productQuantity.instance = {
+      categories: [],
+      lock: false
+    };
+    productQuantity.readyForCommit = false;
+
+    productQuantity.commitEdit = function () {
+      commonConfirmService.confirm('管理员截单后将无法修改, 确认录入?', afterConfirmCommit);
     };
 
     productQuantity.clear = function () {
