@@ -8,7 +8,7 @@
  * Controller of the purchaseManageFrontendApp
  */
 angular.module('purchaseManageFrontendApp')
-  .controller('ProductQuantityCtrl', function ($scope, PurchaseQuantityModel, commonTimeService, commonStringService, commonConfirmService, moment, lodash, alertService, config) {
+  .controller('ProductQuantityCtrl', function ($window, $scope, PurchaseQuantityModel, commonTimeService, commonStringService, commonConfirmService, moment, lodash, alertService, config) {
     commonTimeService.dt = moment(new Date()).toDate();
     commonTimeService.maxDate = moment(new Date()).toDate();
     commonTimeService.minDate = moment(new Date()).toDate();
@@ -24,7 +24,7 @@ angular.module('purchaseManageFrontendApp')
         });
         productQuantity.readyForCommit = false;
       }, function () {
-        alert('录入失败');
+        alertService.alert('录入失败');
       });
     };
     productQuantity.toCDB = function (item, key) {
@@ -52,7 +52,7 @@ angular.module('purchaseManageFrontendApp')
       PurchaseQuantityModel.$new(date).$fetch().$then(function (purchaseQuantityInstance) {
         productQuantity.instance = purchaseQuantityInstance;
       }, function (err) {
-        alert(err.$response.data.message);
+        alertService.alert(err.$response.data.message);
       }); 
     };
 

@@ -22,7 +22,7 @@ angular.module('purchaseManageFrontendApp')
       $window.open(config.host + '/amount/' + moment(new Date(commonTimeService.dt)).format('YYYY-MM-DD') + '/csv');
     };
 
-    productStat.toggleLock = function (day) {
+    productStat.toggleLock = function () {
       var lockText = '';
       if (productStat.instance.lock) {
         lockText = '取消截';
@@ -54,9 +54,9 @@ angular.module('purchaseManageFrontendApp')
       });
     };
 
-    productStat.getInstance = function (date) {
-      var date = date || null;
-      if (null != date) {
+    productStat.getInstance = function (_date) {
+      var date = _date || null;
+      if (null !== date) {
         date = moment(date).format('YYYY-MM-DD'); 
       } else {
         date = commonTimeService.getToday();

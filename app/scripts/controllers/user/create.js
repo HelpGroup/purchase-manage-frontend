@@ -25,7 +25,7 @@ angular.module('purchaseManageFrontendApp')
     this.create = function () {
       if (this.validateEmpty()) {
         this.messages.empty = true;
-        this.message.notEqual = false;
+        this.messages.notEqual = false;
         return false;
       }
       if (this.validateNotEqual()) {

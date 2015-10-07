@@ -26,7 +26,7 @@ angular.module('purchaseManageFrontendApp')
     this.modify = function () {
       if (this.validateEmpty()) {
         this.messages.empty = true;
-        this.message.notEqual = false;
+        this.messages.notEqual = false;
         return false;
       }
       if (this.validateNotEqual()) {
