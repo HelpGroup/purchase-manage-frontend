@@ -8,7 +8,7 @@
  * Controller of the purchaseManageFrontendApp
  */
 angular.module('purchaseManageFrontendApp')
-  .controller('LoginCtrl', function ($http, $state, $location, authorization, Login, config, alertService, routeService) {
+  .controller('LoginCtrl', function ($http, $state, $location, $timeout, authorization, Login, config, alertService, routeService) {
     var self = this;
     this.username = '';
     this.password = '';
@@ -41,10 +41,12 @@ angular.module('purchaseManageFrontendApp')
     };
     if (authorization.isRememberMe()) {
       self.autoLogining = true;
-      authorization.autoLogin().then(function () {
-        routeService.go('AFTER_LOGIN');
-      }, function () {
-        $state.reload();
-      });
+      $timeout(function () {
+        authorization.autoLogin().then(function () {
+          routeService.go('AFTER_LOGIN');
+        }, function () {
+          $state.reload();
+        });
+      }, 500);
     }
   });

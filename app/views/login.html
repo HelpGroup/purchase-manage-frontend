@@ -1,6 +1,6 @@
 <div id="login">
   <h2 class="form-signin-heading">欢迎登录久瑞菜品集中采购系统</h2>
-  <form ng-hide="autoLogining" class="form-signin">
+  <form ng-hide="login.autoLogining" class="form-signin">
     <label for="inputEmail" class="sr-only">帐号</label>
     <input type="text" id="inputEmail" class="form-control" placeholder="请输入你的用户名" required="" autofocus="" ng-model="login.username">
     <label for="inputPassword" class="sr-only">密码</label>
@@ -12,5 +12,5 @@
     </div>
     <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="login.login()">登录</button>
   </form>
-  <h3 ng-show="autoLogining">登录中...</h3>
+  <h3 class="auto-login-heading" ng-show="login.autoLogining">登录中...</h3>
 </div>
