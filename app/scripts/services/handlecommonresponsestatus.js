@@ -8,7 +8,7 @@
  * Factory in the purchaseManageFrontendApp.
  */
 angular.module('purchaseManageFrontendApp')
-  .factory('handleCommonResponseStatus', function (restmod, $location, $state, config, alertService, authorization) {
+  .factory('handleCommonResponseStatus', function ($cookies, restmod, $location, $state, config, alertService) {
     // Service logic
     // Public API here
     return restmod.mixin({
@@ -23,7 +23,10 @@ angular.module('purchaseManageFrontendApp')
               code: alertService.codes.NOT_LOGIN
             };
             alertService.alert(alert);
-            authorization.removeLocalAuthorization();
+            if ($cookies.getObject(config.COOKIE_NAME) && $cookies.getObject(config.COOKIE_NAME).password) {
+            } else {
+              $cookies.remove(config.COOKIE_NAME);
+            }
             $state.go(config.path.LOGIN);
           }
         },

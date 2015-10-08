@@ -10,6 +10,7 @@
 angular.module('purchaseManageFrontendApp')
   .constant('config', {
     host: 'http://julienbrks.pw:8080/purchase',
+    COOKIE_NAME: 'authorization',
     path: {
       LOGIN: 'login',
       CREATE_USER: 'user.create',

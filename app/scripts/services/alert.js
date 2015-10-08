@@ -49,8 +49,7 @@ angular.module('purchaseManageFrontendApp')
     };
     this.addAlert = function (alert) {
       // 相同code的提示不会再出现
-      lodash.remove(this.alerts, {
-        code: alert.code
+      lodash.remove(this.alerts, { code: alert.code
       });
       this.alerts.push(alert);
     };
@@ -77,9 +76,10 @@ angular.module('purchaseManageFrontendApp')
     };
 
     this.init = function (event) {
-      lodash.remove(this.alerts, function (alert) {
-        return (null == alert.code) || alert.code.removeEvents !== undefined && alert.code.removeEvents.lastIndexOf(event) >= 0;
-      });
+      this.alerts = [];
+      // lodash.remove(this.alerts, function (alert) {
+      //   return (null == alert.code) || alert.code.removeEvents !== undefined && alert.code.removeEvents.lastIndexOf(event) >= 0;
+      // });
     };
     return this;
   });

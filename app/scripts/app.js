@@ -30,7 +30,11 @@ angular
     // 顶部所有的弹框服务
     $rootScope.alertService = alertService;
     $rootScope.authorization = authorization;
-    routeService.init();
+
+    $rootScope.$on('$stateChangeStart', function (event, toState) {
+      routeService.init(event, toState);
+    });
+
     $rootScope.$state = $state;
     $rootScope.$location = $location;
   })

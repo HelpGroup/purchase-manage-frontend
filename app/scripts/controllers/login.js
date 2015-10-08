@@ -8,15 +8,22 @@
  * Controller of the purchaseManageFrontendApp
  */
 angular.module('purchaseManageFrontendApp')
-  .controller('LoginCtrl', function ($http, $state, $location, authorization, Login, config, alertService) {
+  .controller('LoginCtrl', function ($http, $state, $location, authorization, Login, config, alertService, routeService) {
+    var self = this;
     this.username = '';
     this.password = '';
     this.login = function () {
+      var password;
       Login.$create({
         username: this.username,
         password: this.password
       }).$then(function (data) {
-        authorization.setAuthorization(data.token, data.username, data.roleId, data.id);
+        if (self.rememberMe) {
+          password = this.password;
+        } else {
+          password = null; 
+        }
+        authorization.setAuthorization(data.token, data.username, data.roleId, data.id, password);
         authorization.setHttpAuthorizationHeader(data.token);
         if (1 === data.roleId) {
           $state.go(config.path.AFTER_LOGIN); 
@@ -32,4 +39,12 @@ angular.module('purchaseManageFrontendApp')
         alertService.alert(alert);
       });
     };
+    if (authorization.isRememberMe()) {
+      self.autoLogining = true;
+      authorization.autoLogin().then(function () {
+        routeService.go('AFTER_LOGIN');
+      }, function () {
+        $state.reload();
+      });
+    }
   });

@@ -63,10 +63,6 @@ angular.module('purchaseManageFrontendApp')
       }
       PurchaseAmountModel.$new(date).$fetch().$then(function (statInstance) {
         productStat.instance = statInstance;
-      }, function () {
-        alertService.alert({
-          msg: '获取统计数据错误'
-        });
       });
     };
     

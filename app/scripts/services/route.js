@@ -10,21 +10,17 @@
 angular.module('purchaseManageFrontendApp')
   .service('routeService', function ($location, $rootScope, $state, alertService, config, authorization) {
     var route = this;
-    route.init = function () {
-      $rootScope.$on('$stateChangeStart', function (event, toState) {
-        $rootScope.modifyUserUrl = route.getModifyUserUrl();
+    route.init = function (event, toState) {
+      $rootScope.modifyUserUrl = route.getModifyUserUrl();
 
         var authorizationValue = authorization.getAuthorization();
         if (authorizationValue) {
           var token = authorizationValue.token; 
           authorization.setHttpAuthorizationHeader(token);
           if (toState.name === config.path.LOGIN) {
-            if (authorizationValue.roleId === 1) {
+            if (!authorization.isRememberMe()) {
               event.preventDefault();
-              $state.go(config.path.AFTER_LOGIN);
-            } else {
-              event.preventDefault();
-              $state.go(config.path.PURCHASE_QUANTITY);
+              route.go('AFTER_LOGIN');   
             }
           }
         } else {
@@ -33,8 +29,7 @@ angular.module('purchaseManageFrontendApp')
             $state.go(config.path.LOGIN);
           }
         }
-        alertService.init('PATH_CHANGE');
-      });
+        alertService.init();
     };
     route.getModifyUserUrl = function () {
       if (authorization.isLogined()) {
@@ -45,6 +40,17 @@ angular.module('purchaseManageFrontendApp')
       } else {
         return '';
       }
+    };
+    route.go = function (path) {
+      switch(path) {
+        case 'AFTER_LOGIN':
+          var authorizationValue = authorization.getAuthorization();
+          if (authorizationValue.roleId === 1) {
+            $state.go(config.path.AFTER_LOGIN);
+          } else {
+            $state.go(config.path.PURCHASE_QUANTITY);
+          }
+      } 
     };
     return route;
   });
