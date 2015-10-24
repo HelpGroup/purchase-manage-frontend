@@ -11,7 +11,7 @@ angular.module('purchaseManageFrontendApp')
   .controller('ProductActuallyBuyCtrl', function ($scope, $window, config, PurchaseChargeModel, commonTimeService, moment, lodash, alertService) {
     var productActuallyBuy = this;
     commonTimeService.dt = moment(new Date()).add(-1 , 'd').toDate();
-    commonTimeService.maxDate = moment(new Date()).add(-1 , 'd').toDate();
+    commonTimeService.maxDate = moment(new Date()).toDate();
     commonTimeService.chooseDate = function () {
       productActuallyBuy.initInstance();
     };
@@ -42,6 +42,48 @@ angular.module('purchaseManageFrontendApp')
       $window.open(config.host + '/charge/admin/' + date + '/csv');
     };
 
+    productActuallyBuy.allColCount = function (finances, key) {
+      var result = 0;
+      lodash.each(finances, function (finance){
+        result += finance[key];
+      });
+      return result;
+    };
+
+    productActuallyBuy.allRowCount = function () {
+      productActuallyBuy.rowCount = {}
+      if (!productActuallyBuy.instance) {
+        return false; 
+      }
+      lodash.each(productActuallyBuy.instance.chargeList, function (charge) {
+        lodash.each(charge.ingredients, function (ingredient) {
+          lodash.each(ingredient.finances, function (finance) {
+            if (!productActuallyBuy.rowCount[finance.userId]) {
+              productActuallyBuy.rowCount[finance.userId] = {
+                amount: 0,
+                actualBuy: 0,
+                totalCharge: 0
+              };
+            }
+            productActuallyBuy.rowCount[finance.userId]['amount'] += finance.amount;
+            productActuallyBuy.rowCount[finance.userId]['actualBuy'] += finance.actualBuy;
+            productActuallyBuy.rowCount[finance.userId]['totalCharge'] += finance.totalCharge;
+          });
+        });
+      });
+    };
+
+    productActuallyBuy.allCount = function (key) {
+      var result = 0;
+      if (!productActuallyBuy.rowCount) {
+        return false;
+      }
+      lodash.each(productActuallyBuy.rowCount, function (user) {
+        result += user[key];
+      });
+      return result;
+    };
+
     productActuallyBuy.commitEdit = function () {
       productActuallyBuy.instance.$save(['chargeList']).$then(function () {
         $window.alert('提交成功!');
@@ -50,13 +92,14 @@ angular.module('purchaseManageFrontendApp')
       });
     };
     $scope.$watch(function () {
-      return productActuallyBuy.list;
+      return productActuallyBuy.instance;
     }, function (list) {
-      productActuallyBuy.readyForCommit = lodash.every(list, function (classify) {
-        return lodash.every(classify.finances, function (item) {
-          return item.actualBuy !== undefined && item.actualBuy !== null && item.actualBuy.trim() !== '' && item.totalCharge !== undefined && item.totalCharge !== null && item.totalCharge.trim() !== '';
-        });
-      });
+      productActuallyBuy.allRowCount();
+      // productActuallyBuy.readyForCommit = lodash.every(list, function (classify) {
+      //   return lodash.every(classify.finances, function (item) {
+      //     return item.actualBuy !== undefined && item.actualBuy !== null && item.actualBuy.trim() !== '' && item.totalCharge !== undefined && item.totalCharge !== null && item.totalCharge.trim() !== '';
+      //   });
+      // });
     }, true);
 
     productActuallyBuy.initInstance();

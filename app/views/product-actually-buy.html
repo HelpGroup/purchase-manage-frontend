@@ -4,11 +4,15 @@
     <th rowspan="2">菜品</th>
     <th rowspan="2">单位</th>
     <th colspan="3" ng-repeat="user in productActuallyBuy.instance.users track by $index">{{user.username}}</th>
+    <th colspan="3">汇总</th>
   </tr>
   <tr>
     <th ng-repeat-start="user in productActuallyBuy.instance.users track by $index">需求数量</th>
     <th>实际采购量</th>
     <th ng-repeat-end="user in productActuallyBuy.instance.users track by $index">采购总价</th>
+    <th>需求数量</th>
+    <th>实际采购量</th>
+    <th>采购总价</th>
   </tr>
   <tbody ng-repeat="classify in productActuallyBuy.instance.chargeList">
     <tr ng-repeat="item in classify.ingredients">
@@ -22,8 +26,26 @@
       <td ng-repeat-end="amount in item.finances">
         <input type="number" ng-model="amount.totalCharge" validator="money">
       </td>
+      <td>{{productActuallyBuy.allColCount(item.finances, 'amount')}}</td>
+      <td>{{productActuallyBuy.allColCount(item.finances, 'actualBuy')}}</td>
+      <td>{{productActuallyBuy.allColCount(item.finances, 'totalCharge')}}</td>
     </tr> 
+    
   </tbody>
+  <tbody>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td ng-repeat-start="user in productActuallyBuy.instance.users track by $index">{{productActuallyBuy.rowCount[user.id]['amount']}}</td>
+      <td>{{productActuallyBuy.rowCount[user.id]['actualBuy']}}</td>
+      <td ng-repeat-end="user in productActuallyBuy.instance.users track by $index">{{productActuallyBuy.rowCount[user.id]['totalCharge']}}</td>
+      <td>{{productActuallyBuy.allCount('amount')}}</td>
+      <td>{{productActuallyBuy.allCount('actualBuy')}}</td>
+      <td>{{productActuallyBuy.allCount('totalCharge')}}</td>
+    </tr>
+
+  <tbody>
 </table>
 <div ng-show="productActuallyBuy.instance !== null">
   <button type="button" class="btn btn-primary" ng-click="productActuallyBuy.commitEdit()" ng-class="{disabled: !productActuallyBuy.readyForCommit}">提交</button>
