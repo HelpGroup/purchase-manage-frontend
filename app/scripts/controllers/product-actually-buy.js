@@ -11,7 +11,7 @@ angular.module('purchaseManageFrontendApp')
   .controller('ProductActuallyBuyCtrl', function ($scope, $window, config, PurchaseChargeModel, commonTimeService, moment, lodash, alertService) {
     var productActuallyBuy = this;
     commonTimeService.dt = moment(new Date()).add(-1 , 'd').toDate();
-    commonTimeService.maxDate = moment(new Date()).toDate();
+    commonTimeService.maxDate = moment(new Date()).add(-1 , 'd').toDate();
     commonTimeService.chooseDate = function () {
       productActuallyBuy.initInstance();
     };
